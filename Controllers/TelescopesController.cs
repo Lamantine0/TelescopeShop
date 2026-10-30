@@ -93,6 +93,7 @@ public class TelescopesController : ControllerBase
         telescope.BarlowLensIncluded = dto.BarlowLensIncluded;
         telescope.MaximumUsefulMagnification = dto.MaximumUsefulMagnification;
         telescope.FocalLength = dto.FocalLength;
+        telescope.Description = dto.Description;
     }
 
     private static TelescopeDto ToDto(Telescope telescope)
@@ -106,7 +107,8 @@ public class TelescopesController : ControllerBase
             Seeker = telescope.Seeker,
             BarlowLensIncluded = telescope.BarlowLensIncluded,
             MaximumUsefulMagnification = telescope.MaximumUsefulMagnification,
-            FocalLength = telescope.FocalLength
+            FocalLength = telescope.FocalLength,
+            Description = telescope.Description
         };
     }
 }

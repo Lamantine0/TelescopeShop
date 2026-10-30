@@ -90,7 +90,7 @@ else
     <div class="catalog-grid">
         @foreach (var t in Model.Telescopes)
         {
-            <article class="card">
+            <a class="card" asp-page="/Telescope" asp-route-id="@t.Id">
                 <div class="card-image">
                     <img src="@Url.Content($"~/Product/telescope-{t.Id}.png")"
                          alt="Телескоп @t.Manufacturer, апертура @t.Aperture мм"
@@ -131,7 +131,7 @@ else
                         </div>
                     </dl>
                 </div>
-            </article>
+            </a>
         }
     </div>
 }

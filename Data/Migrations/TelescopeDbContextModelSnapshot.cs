@@ -28,6 +28,10 @@ namespace TelescopeShop_.Data.Migrations
                     b.Property<bool>("BarlowLensIncluded")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("FocalLength")
                         .HasColumnType("INTEGER");
 
@@ -55,6 +59,7 @@ namespace TelescopeShop_.Data.Migrations
                             Id = 1,
                             Aperture = 130,
                             BarlowLensIncluded = false,
+                            Description = "Зеркальный телескоп на экваториальной монтировке. Подходит для наблюдений Луны, планет и ярких туманностей. Компактная тренога с регулируемой высотой и плавным ходом по обоим осям.",
                             FocalLength = 650,
                             Manufacturer = "Celestron",
                             MaximumUsefulMagnification = 260,
@@ -66,6 +71,7 @@ namespace TelescopeShop_.Data.Migrations
                             Id = 2,
                             Aperture = 130,
                             BarlowLensIncluded = false,
+                            Description = "Настольный телескоп-ньютона в корпусе Гершеля. Благодаря короткому фокусу даёт широкое поле зрения — удобен для обзорных наблюдений Млечного Пути и рассеянных скоплений.",
                             FocalLength = 650,
                             Manufacturer = "Sky-Watcher",
                             MaximumUsefulMagnification = 260,
@@ -77,6 +83,7 @@ namespace TelescopeShop_.Data.Migrations
                             Id = 3,
                             Aperture = 203,
                             BarlowLensIncluded = false,
+                            Description = "Классический вращающийся добсониан с трубой на лямбда-креплении. Апертура 203 мм собирает достаточно света для наблюдений слабых галактик и глобулярных скоплений.",
                             FocalLength = 1200,
                             Manufacturer = "Orion",
                             MaximumUsefulMagnification = 406,
@@ -88,6 +95,7 @@ namespace TelescopeShop_.Data.Migrations
                             Id = 4,
                             Aperture = 203,
                             BarlowLensIncluded = false,
+                            Description = "Катадиоптрический телескоп с оптикой ACF на автоматизированной вилковой монтировке. Длинный фокус обеспечивает высокое увеличение — хорош для планетных наблюдений и лунной съёмки.",
                             FocalLength = 2032,
                             Manufacturer = "Meade",
                             MaximumUsefulMagnification = 406,
@@ -99,6 +107,7 @@ namespace TelescopeShop_.Data.Migrations
                             Id = 5,
                             Aperture = 150,
                             BarlowLensIncluded = false,
+                            Description = "Компактный катадиоптрик на одновилковой монтировке с компьютерным наведением. Модель со встроенной базой небесных объектов позволяет быстро найти нужную цель.",
                             FocalLength = 1500,
                             Manufacturer = "Celestron",
                             MaximumUsefulMagnification = 300,
@@ -110,6 +119,7 @@ namespace TelescopeShop_.Data.Migrations
                             Id = 6,
                             Aperture = 200,
                             BarlowLensIncluded = false,
+                            Description = "Добсониан с алюминиевой трубой и крепким основанием. Оптимальный выбор для начинающих: большая апертура без сложной настройки и дорогой монтировки.",
                             FocalLength = 1200,
                             Manufacturer = "Sky-Watcher",
                             MaximumUsefulMagnification = 400,
@@ -121,6 +131,7 @@ namespace TelescopeShop_.Data.Migrations
                             Id = 7,
                             Aperture = 70,
                             BarlowLensIncluded = true,
+                            Description = "Лёгкий рефрактор на азимутальной треноге — первый телескоп для детей и путешествий. В комплекте линза Барлоу, удваивающая увеличение.",
                             FocalLength = 700,
                             Manufacturer = "Celestron",
                             MaximumUsefulMagnification = 140,
@@ -132,6 +143,7 @@ namespace TelescopeShop_.Data.Migrations
                             Id = 8,
                             Aperture = 114,
                             BarlowLensIncluded = false,
+                            Description = "Настольный телескоп-ньютона на поворотном основании. Короткий фокус даёт широкое поле — подходит для наблюдений с балкона в условиях городской засветки.",
                             FocalLength = 450,
                             Manufacturer = "Orion",
                             MaximumUsefulMagnification = 228,
@@ -143,6 +155,7 @@ namespace TelescopeShop_.Data.Migrations
                             Id = 9,
                             Aperture = 254,
                             BarlowLensIncluded = false,
+                            Description = "Мощный добсониан с апертурой 10 дюймов на трёхопорном основании. Серьёзный инструмент для глубокого космоса: туманности, галактики и шаровые скопления.",
                             FocalLength = 1250,
                             Manufacturer = "GSO",
                             MaximumUsefulMagnification = 508,
@@ -154,6 +167,7 @@ namespace TelescopeShop_.Data.Migrations
                             Id = 10,
                             Aperture = 102,
                             BarlowLensIncluded = false,
+                            Description = "Компактный максутов-кассегрейн с Wi-Fi-управлением. Лёгкий корпус и короткая тренога делают его удобным для выездных наблюдений и астрофотографии Луны.",
                             FocalLength = 1325,
                             Manufacturer = "Celestron",
                             MaximumUsefulMagnification = 204,

@@ -20,4 +20,6 @@ public class Telescope
     public int MaximumUsefulMagnification { get; set; }
 
     public int FocalLength { get; set; }
+
+    public string Description { get; set; } = string.Empty;
 }

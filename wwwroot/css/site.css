@@ -334,6 +334,8 @@ a:hover {
     box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
+    color: inherit;
+    text-decoration: none;
     transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
 
@@ -341,6 +343,7 @@ a:hover {
     transform: translateY(-3px);
     border-color: var(--accent);
     background: var(--surface-hover);
+    text-decoration: none;
 }
 
 .card-image {
@@ -426,6 +429,182 @@ a:hover {
     margin-bottom: 40px;
 }
 
+/* Product page */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 20px 0 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.breadcrumb a {
+    color: var(--text-muted);
+}
+
+.breadcrumb a:hover {
+    color: var(--text);
+}
+
+.breadcrumb-sep {
+    color: var(--border);
+}
+
+.product {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 32px;
+    padding: 24px 0 8px;
+}
+
+.product-media {
+    background: linear-gradient(180deg, #0b1426, #0f1c33);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    align-self: start;
+    position: sticky;
+    top: 78px;
+}
+
+.product-media img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.product-info {
+    min-width: 0;
+}
+
+.product-title {
+    margin: 0 0 6px;
+    font-size: 2rem;
+    line-height: 1.15;
+}
+
+.product-subtitle {
+    margin: 0 0 20px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.product-specs {
+    margin: 0 0 26px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.product-spec {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 12px 16px;
+    background: var(--surface);
+}
+
+.product-spec dt {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.product-spec dd {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.product-description {
+    padding-top: 4px;
+}
+
+.product-section-title {
+    margin: 0 0 10px;
+    font-size: 1.15rem;
+    color: var(--text);
+}
+
+.product-description p {
+    margin: 0;
+    color: var(--text-muted);
+    line-height: 1.65;
+}
+
+/* Related products */
+.related {
+    padding: 12px 0 56px;
+}
+
+.related-title {
+    margin: 0 0 16px;
+    font-size: 1.2rem;
+}
+
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.related-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.related-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    text-decoration: none;
+}
+
+.related-image {
+    aspect-ratio: 4 / 3;
+    background: linear-gradient(180deg, #0b1426, #0f1c33);
+    border-bottom: 1px solid var(--border);
+}
+
+.related-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.related-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 14px 12px;
+}
+
+.related-manufacturer {
+    font-weight: 600;
+}
+
+.related-specs {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
 /* Footer */
 .site-footer {
     margin-top: auto;
@@ -450,6 +629,23 @@ a:hover {
     }
 
     .specs {
+        grid-template-columns: 1fr;
+    }
+
+    .product {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .product-media {
+        position: static;
+    }
+
+    .product-title {
+        font-size: 1.6rem;
+    }
+
+    .product-specs {
         grid-template-columns: 1fr;
     }
 

@@ -1,0 +1,86 @@
+@page "{id:int}"
+@model TelescopeShop_.Pages.TelescopeModel
+@{
+    var t = Model.Telescope!;
+    ViewData["Title"] = $"{t.Manufacturer} — апертура {t.Aperture} мм";
+}
+
+<nav class="breadcrumb">
+    <a asp-page="/Index">Каталог</a>
+    <span class="breadcrumb-sep" aria-hidden="true">/</span>
+    <span>@t.Manufacturer</span>
+</nav>
+
+<article class="product">
+    <div class="product-media">
+        <img src="@Url.Content($"~/Product/telescope-{t.Id}.png")"
+             alt="@t.Manufacturer, апертура @t.Aperture мм"
+             asp-append-version="true" />
+    </div>
+
+    <div class="product-info">
+        <h1 class="product-title">@t.Manufacturer</h1>
+        <p class="product-subtitle">
+            @t.Aperture мм · f/@t.FocalLength мм
+            <span class="badge @(t.BarlowLensIncluded ? "badge-yes" : "badge-no")">
+                Линза Барлоу: @(t.BarlowLensIncluded ? "в комплекте" : "не в комплекте")
+            </span>
+        </p>
+
+        <dl class="product-specs">
+            <div class="product-spec">
+                <dt>Апертура</dt>
+                <dd>@t.Aperture мм</dd>
+            </div>
+            <div class="product-spec">
+                <dt>Фокусное расстояние</dt>
+                <dd>@t.FocalLength мм</dd>
+            </div>
+            <div class="product-spec">
+                <dt>Высота треноги</dt>
+                <dd>@t.TripodHeight мм</dd>
+            </div>
+            <div class="product-spec">
+                <dt>Искатель</dt>
+                <dd>@t.Seeker</dd>
+            </div>
+            <div class="product-spec">
+                <dt>Линза Барлоу</dt>
+                <dd>@(t.BarlowLensIncluded ? "Да" : "Нет")</dd>
+            </div>
+            <div class="product-spec">
+                <dt>Макс. полезное увеличение</dt>
+                <dd>@t.MaximumUsefulMagnification×</dd>
+            </div>
+        </dl>
+
+        <section class="product-description">
+            <h2 class="product-section-title">Описание</h2>
+            <p>@t.Description</p>
+        </section>
+    </div>
+</article>
+
+@if (Model.Related.Count > 0)
+{
+    <section class="related">
+        <h2 class="related-title">Похожие телескопы</h2>
+        <div class="related-grid">
+            @foreach (var r in Model.Related)
+            {
+                <a class="related-card" asp-page="/Telescope" asp-route-id="@r.Id">
+                    <div class="related-image">
+                        <img src="@Url.Content($"~/Product/telescope-{r.Id}.png")"
+                             alt="@r.Manufacturer"
+                             asp-append-version="true"
+                             loading="lazy" />
+                    </div>
+                    <div class="related-body">
+                        <span class="related-manufacturer">@r.Manufacturer</span>
+                        <span class="related-specs">@r.Aperture мм · f/@r.FocalLength мм</span>
+                    </div>
+                </a>
+            }
+        </div>
+    </section>
+}
