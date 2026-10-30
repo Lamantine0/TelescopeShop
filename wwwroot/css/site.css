@@ -123,6 +123,67 @@ a:hover {
     max-width: 720px;
 }
 
+/* Filter bar */
+.filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    max-width: 560px;
+}
+
+.filter-input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 14px;
+    font: inherit;
+    font-size: 0.95rem;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.filter-input::placeholder {
+    color: var(--text-muted);
+}
+
+.filter-input:focus {
+    border-color: var(--accent);
+    background: var(--surface-hover);
+}
+
+.filter-submit {
+    padding: 10px 20px;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.filter-submit:hover {
+    background: var(--accent-strong);
+    border-color: var(--accent-strong);
+}
+
+.filter-reset {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.filter-reset:hover {
+    color: var(--text);
+}
+
 /* Catalog grid */
 .catalog-grid {
     display: grid;

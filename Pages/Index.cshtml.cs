@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using TelescopeShop_.Data;
@@ -16,10 +17,22 @@ public class IndexModel : PageModel
 
     public IReadOnlyList<Telescope> Telescopes { get; private set; } = [];
 
+    [BindProperty(SupportsGet = true)]
+    public string? Search { get; set; }
+
+    public bool HasSearch => !string.IsNullOrWhiteSpace(Search);
+
     public async Task OnGetAsync(CancellationToken cancellationToken)
     {
-        Telescopes = await _context.Telescopes
-            .AsNoTracking()
+        var query = _context.Telescopes.AsNoTracking();
+
+        if (!string.IsNullOrWhiteSpace(Search))
+        {
+            var term = Search.Trim();
+            query = query.Where(t => t.Manufacturer.Contains(term));
+        }
+
+        Telescopes = await query
             .OrderBy(t => t.Id)
             .ToListAsync(cancellationToken);
     }

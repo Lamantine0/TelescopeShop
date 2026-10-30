@@ -10,12 +10,33 @@
         Выберите телескоп: зеркальные, рефракторы и катадиоптрики.
         В наличии @Model.Telescopes.Count моделей.
     </p>
+
+    <form method="get" class="filter-bar">
+        <input type="text"
+               name="search"
+               value="@Model.Search"
+               class="filter-input"
+               placeholder="Поиск по названию (производителю)…"
+               autocomplete="off" />
+        <button type="submit" class="filter-submit">Найти</button>
+        @if (Model.HasSearch)
+        {
+            <a href="@Url.Page("/Index")" class="filter-reset">Сбросить</a>
+        }
+    </form>
 </section>
 
 @if (Model.Telescopes.Count == 0)
 {
     <div class="empty-state">
-        <p>В каталоге пока нет товаров.</p>
+        @if (Model.HasSearch)
+        {
+            <p>По запросу «@Model.Search» ничего не найдено.</p>
+        }
+        else
+        {
+            <p>В каталоге пока нет товаров.</p>
+        }
     </div>
 }
 else
