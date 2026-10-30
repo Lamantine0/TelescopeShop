@@ -20,7 +20,28 @@ public class IndexModel : PageModel
     [BindProperty(SupportsGet = true)]
     public string? Search { get; set; }
 
+    [BindProperty(SupportsGet = true)]
+    public int? ApertureMin { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public int? ApertureMax { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public int? FocalMin { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public int? FocalMax { get; set; }
+
+    /// <summary>null — все, true — только с линзой, false — только без неё.</summary>
+    [BindProperty(SupportsGet = true)]
+    public bool? Barlow { get; set; }
+
     public bool HasSearch => !string.IsNullOrWhiteSpace(Search);
+
+    public bool HasFilters => HasSearch
+        || ApertureMin.HasValue || ApertureMax.HasValue
+        || FocalMin.HasValue || FocalMax.HasValue
+        || Barlow.HasValue;
 
     public async Task OnGetAsync(CancellationToken cancellationToken)
     {
@@ -30,6 +51,36 @@ public class IndexModel : PageModel
         {
             var term = Search.Trim();
             query = query.Where(t => t.Manufacturer.Contains(term));
+        }
+
+        if (ApertureMin.HasValue)
+        {
+            var min = ApertureMin.Value;
+            query = query.Where(t => t.Aperture >= min);
+        }
+
+        if (ApertureMax.HasValue)
+        {
+            var max = ApertureMax.Value;
+            query = query.Where(t => t.Aperture <= max);
+        }
+
+        if (FocalMin.HasValue)
+        {
+            var min = FocalMin.Value;
+            query = query.Where(t => t.FocalLength >= min);
+        }
+
+        if (FocalMax.HasValue)
+        {
+            var max = FocalMax.Value;
+            query = query.Where(t => t.FocalLength <= max);
+        }
+
+        if (Barlow.HasValue)
+        {
+            var withBarlow = Barlow.Value;
+            query = query.Where(t => t.BarlowLensIncluded == withBarlow);
         }
 
         Telescopes = await query

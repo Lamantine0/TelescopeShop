@@ -125,21 +125,31 @@ a:hover {
 
 /* Filter bar */
 .filter-bar {
+    margin-top: 22px;
+    max-width: 720px;
     display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-    max-width: 560px;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
 }
 
-.filter-input {
-    flex: 1;
-    min-width: 0;
-    padding: 10px 14px;
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.filter-input,
+.filter-select {
+    padding: 9px 13px;
     font: inherit;
     font-size: 0.95rem;
     color: var(--text);
-    background: var(--surface);
+    background: var(--bg-soft);
     border: 1px solid var(--border);
     border-radius: 8px;
     outline: none;
@@ -150,13 +160,73 @@ a:hover {
     color: var(--text-muted);
 }
 
-.filter-input:focus {
+.filter-input:focus,
+.filter-select:focus {
     border-color: var(--accent);
     background: var(--surface-hover);
 }
 
+.filter-select {
+    cursor: pointer;
+}
+
+.filter-select option {
+    background: var(--bg-soft);
+    color: var(--text);
+}
+
+.filter-input-wide {
+    flex: 1 1 260px;
+    min-width: 0;
+}
+
+.filter-number {
+    width: 110px;
+    flex: 0 0 auto;
+}
+
+/* hide number spinners, they clash with the dark theme */
+.filter-number::-webkit-outer-spin-button,
+.filter-number::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.filter-number[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.filter-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.filter-label {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.filter-range {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.filter-sep {
+    color: var(--text-muted);
+}
+
+.filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
 .filter-submit {
-    padding: 10px 20px;
+    padding: 10px 22px;
     font: inherit;
     font-size: 0.95rem;
     font-weight: 600;
@@ -174,7 +244,6 @@ a:hover {
 }
 
 .filter-reset {
-    padding: 10px 14px;
     font-size: 0.9rem;
     color: var(--text-muted);
     white-space: nowrap;
