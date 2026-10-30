@@ -1,0 +1,75 @@
+Telescope images
+================
+
+Photos sourced from Wikimedia Commons. Each image remains under the license listed below.
+The images are illustrative and may not depict the exact model listed in the catalog.
+
+telescope-1.png
+  Title:   Telescope Celestron window
+  Author:  User:AstroHurricane001
+  License: Public domain
+  Source:  https://commons.wikimedia.org/wiki/File:Telescope_Celestron_window.jpg
+
+telescope-2.png
+  Title:   Celestron FirstScope 76
+  Author:  Wutthichai Charoenburi
+  License: CC BY 2.0
+  License URL: https://creativecommons.org/licenses/by/2.0
+  Source:  https://commons.wikimedia.org/wiki/File:Celestron_FirstScope_76.jpg
+
+telescope-3.png
+  Title:   Dobson class
+  Author:  user:ECeDee
+  License: CC BY-SA 3.0
+  License URL: https://creativecommons.org/licenses/by-sa/3.0
+  Source:  https://commons.wikimedia.org/wiki/File:Dobson_class.jpg
+
+telescope-4.png
+  Title:   Meade LX90
+  Author:  Rob Glover
+  License: CC BY-SA 2.0
+  License URL: https://creativecommons.org/licenses/by-sa/2.0
+  Source:  https://commons.wikimedia.org/wiki/File:Meade_LX90.jpg
+
+telescope-5.png
+  Title:   6se
+  Author:  Brokephotography7D
+  License: CC BY-SA 4.0
+  License URL: https://creativecommons.org/licenses/by-sa/4.0
+  Source:  https://commons.wikimedia.org/wiki/File:6se.jpg
+
+telescope-6.png
+  Title:   JeremysTelescope
+  Author:  Jeremy.wood
+  License: CC BY-SA 4.0
+  License URL: https://creativecommons.org/licenses/by-sa/4.0
+  Source:  https://commons.wikimedia.org/wiki/File:JeremysTelescope.jpg
+
+telescope-7.png
+  Title:   Celestron Powerseeker 80eq telescope
+  Author:  Peterye2005
+  License: CC BY-SA 4.0
+  License URL: https://creativecommons.org/licenses/by-sa/4.0
+  Source:  https://commons.wikimedia.org/wiki/File:Celestron_Powerseeker_80eq_telescope.JPG
+
+telescope-8.png
+  Title:   Meade LightBridge Mini 114
+  Author:  Morn
+  License: CC BY-SA 4.0
+  License URL: https://creativecommons.org/licenses/by-sa/4.0
+  Source:  https://commons.wikimedia.org/wiki/File:Meade_LightBridge_Mini_114.jpg
+
+telescope-9.png
+  Title:   20 inch Obsession
+  Author:  NathanScientific
+  License: CC0
+  License URL: https://creativecommons.org/publicdomain/zero/1.0
+  Source:  https://commons.wikimedia.org/wiki/File:20%22_Obsession.jpg
+
+telescope-10.png
+  Title:   Maksutov 150mm
+  Author:  Halfblue
+  License: CC BY-SA 3.0
+  License URL: https://creativecommons.org/licenses/by-sa/3.0
+  Source:  https://commons.wikimedia.org/wiki/File:Maksutov_150mm.jpg
+

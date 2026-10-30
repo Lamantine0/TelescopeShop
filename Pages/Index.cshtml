@@ -1,0 +1,71 @@
+@page
+@model TelescopeShop_.Pages.IndexModel
+@{
+    ViewData["Title"] = "Каталог телескопов";
+}
+
+<section class="hero">
+    <h1 class="hero-title">Каталог телескопов</h1>
+    <p class="hero-subtitle">
+        Выберите телескоп: зеркальные, рефракторы и катадиоптрики.
+        В наличии @Model.Telescopes.Count моделей.
+    </p>
+</section>
+
+@if (Model.Telescopes.Count == 0)
+{
+    <div class="empty-state">
+        <p>В каталоге пока нет товаров.</p>
+    </div>
+}
+else
+{
+    <div class="catalog-grid">
+        @foreach (var t in Model.Telescopes)
+        {
+            <article class="card">
+                <div class="card-image">
+                    <img src="@Url.Content($"~/Product/telescope-{t.Id}.png")"
+                         alt="Телескоп @t.Manufacturer, апертура @t.Aperture мм"
+                         asp-append-version="true"
+                         loading="lazy" />
+                </div>
+                <div class="card-body">
+                    <h2 class="card-title">@t.Manufacturer</h2>
+                    <p class="card-model">Модель № @t.Id</p>
+
+                    <dl class="specs">
+                        <div class="spec">
+                            <dt>Апертура</dt>
+                            <dd>@t.Aperture мм</dd>
+                        </div>
+                        <div class="spec">
+                            <dt>Фокусное расстояние</dt>
+                            <dd>@t.FocalLength мм</dd>
+                        </div>
+                        <div class="spec">
+                            <dt>Высота треноги</dt>
+                            <dd>@t.TripodHeight мм</dd>
+                        </div>
+                        <div class="spec">
+                            <dt>Искатель</dt>
+                            <dd>@t.Seeker</dd>
+                        </div>
+                        <div class="spec">
+                            <dt>Линза Барлоу</dt>
+                            <dd>
+                                <span class="badge @(t.BarlowLensIncluded ? "badge-yes" : "badge-no")">
+                                    @(t.BarlowLensIncluded ? "Да" : "Нет")
+                                </span>
+                            </dd>
+                        </div>
+                        <div class="spec">
+                            <dt>Макс. увеличение</dt>
+                            <dd>@t.MaximumUsefulMagnification×</dd>
+                        </div>
+                    </dl>
+                </div>
+            </article>
+        }
+    </div>
+}

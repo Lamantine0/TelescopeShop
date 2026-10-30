@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TelescopeShop</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" asp-page="/Index">
+                <span class="brand-mark">◎</span>
+                <span class="brand-name">TelescopeShop</span>
+            </a>
+            <nav class="nav">
+                <a class="nav-link" asp-page="/Index">Каталог</a>
+                <a class="nav-link" href="/swagger">API</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <span>TelescopeShop — магазин телескопов</span>
+            <span>Фотографии товаров: Wikimedia Commons, см. wwwroot/Product/CREDITS.txt</span>
+        </div>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
