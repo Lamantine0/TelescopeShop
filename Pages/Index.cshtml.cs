@@ -43,6 +43,20 @@ public class IndexModel : PageModel
         || FocalMin.HasValue || FocalMax.HasValue
         || Barlow.HasValue;
 
+    /// <summary>Число активных фильтров (диапазон считается одним фильтром).</summary>
+    public int ActiveFilterCount
+    {
+        get
+        {
+            var count = 0;
+            if (HasSearch) count++;
+            if (ApertureMin.HasValue || ApertureMax.HasValue) count++;
+            if (FocalMin.HasValue || FocalMax.HasValue) count++;
+            if (Barlow.HasValue) count++;
+            return count;
+        }
+    }
+
     public async Task OnGetAsync(CancellationToken cancellationToken)
     {
         var query = _context.Telescopes.AsNoTracking();

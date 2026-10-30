@@ -11,54 +11,65 @@
         В наличии @Model.Telescopes.Count моделей.
     </p>
 
-    <form method="get" class="filter-bar">
-        <div class="filter-row">
-            <input type="text"
-                   name="search"
-                   value="@Model.Search"
-                   class="filter-input filter-input-wide"
-                   placeholder="Поиск по названию (производителю)…"
-                   autocomplete="off" />
-
-            <select name="barlow" class="filter-select">
-                <option value="">Линза Барлоу: все</option>
-                <option value="true" selected="@(Model.Barlow == true)">Только с линзой</option>
-                <option value="false" selected="@(Model.Barlow == false)">Только без линзы</option>
-            </select>
-        </div>
-
-        <div class="filter-row">
-            <label class="filter-group">
-                <span class="filter-label">Апертура, мм</span>
-                <span class="filter-range">
-                    <input type="number" name="apertureMin" value="@Model.ApertureMin"
-                           class="filter-input filter-number" min="0" placeholder="от" />
-                    <span class="filter-sep">—</span>
-                    <input type="number" name="apertureMax" value="@Model.ApertureMax"
-                           class="filter-input filter-number" min="0" placeholder="до" />
-                </span>
-            </label>
-
-            <label class="filter-group">
-                <span class="filter-label">Фокусное, мм</span>
-                <span class="filter-range">
-                    <input type="number" name="focalMin" value="@Model.FocalMin"
-                           class="filter-input filter-number" min="0" placeholder="от" />
-                    <span class="filter-sep">—</span>
-                    <input type="number" name="focalMax" value="@Model.FocalMax"
-                           class="filter-input filter-number" min="0" placeholder="до" />
-                </span>
-            </label>
-        </div>
-
-        <div class="filter-actions">
-            <button type="submit" class="filter-submit">Применить</button>
-            @if (Model.HasFilters)
+    <details class="filter-panel" open="@(Model.HasFilters ? "true" : null)">
+        <summary class="filter-toggle">
+            <span class="filter-toggle-chevron" aria-hidden="true"></span>
+            <span class="filter-toggle-text">Фильтры</span>
+            @if (Model.ActiveFilterCount > 0)
             {
-                <a href="@Url.Page("/Index")" class="filter-reset">Сбросить фильтры</a>
+                <span class="filter-count">@Model.ActiveFilterCount</span>
             }
-        </div>
-    </form>
+        </summary>
+
+        <form method="get" class="filter-bar">
+            <div class="filter-row">
+                <input type="text"
+                       name="search"
+                       value="@Model.Search"
+                       class="filter-input filter-input-wide"
+                       placeholder="Поиск по названию (производителю)…"
+                       autocomplete="off" />
+
+                <select name="barlow" class="filter-select">
+                    <option value="">Линза Барлоу: все</option>
+                    <option value="true" selected="@(Model.Barlow == true)">Только с линзой</option>
+                    <option value="false" selected="@(Model.Barlow == false)">Только без линзы</option>
+                </select>
+            </div>
+
+            <div class="filter-row">
+                <label class="filter-group">
+                    <span class="filter-label">Апертура, мм</span>
+                    <span class="filter-range">
+                        <input type="number" name="apertureMin" value="@Model.ApertureMin"
+                               class="filter-input filter-number" min="0" placeholder="от" />
+                        <span class="filter-sep">—</span>
+                        <input type="number" name="apertureMax" value="@Model.ApertureMax"
+                               class="filter-input filter-number" min="0" placeholder="до" />
+                    </span>
+                </label>
+
+                <label class="filter-group">
+                    <span class="filter-label">Фокусное, мм</span>
+                    <span class="filter-range">
+                        <input type="number" name="focalMin" value="@Model.FocalMin"
+                               class="filter-input filter-number" min="0" placeholder="от" />
+                        <span class="filter-sep">—</span>
+                        <input type="number" name="focalMax" value="@Model.FocalMax"
+                               class="filter-input filter-number" min="0" placeholder="до" />
+                    </span>
+                </label>
+            </div>
+
+            <div class="filter-actions">
+                <button type="submit" class="filter-submit">Применить</button>
+                @if (Model.HasFilters)
+                {
+                    <a href="@Url.Page("/Index")" class="filter-reset">Сбросить фильтры</a>
+                }
+            </div>
+        </form>
+    </details>
 </section>
 
 @if (Model.Telescopes.Count == 0)
