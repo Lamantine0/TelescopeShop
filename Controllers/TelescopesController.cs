@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TelescopeShop_.Data;
-using TelescopeShop_.DTOs;
-using TelescopeShop_.Models;
+using TelescopeShop.Data;
+using TelescopeShop.DTOs;
+using TelescopeShop.Models;
 
-namespace TelescopeShop_.Controllers;
+namespace TelescopeShop.Controllers;
 
 [ApiController]
 [Route("[controller]")]

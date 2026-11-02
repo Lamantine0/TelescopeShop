@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using TelescopeShop_.Models;
+using TelescopeShop.Models;
 
-namespace TelescopeShop_.Data;
+namespace TelescopeShop.Data;
 
 public class TelescopeDbContext : DbContext
 {

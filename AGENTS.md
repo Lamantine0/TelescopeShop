@@ -23,9 +23,10 @@ dotnet ef migrations add <Name> --output-dir Data/Migrations  # новая ми�
 
 ## Важные особенности (неочевидные)
 
-- **Namespace `TelescopeShop_`** (с подчёркиванием) — из-за конфликта с именем проекта.
-- **Имя файла csproj — `TelescopeShop..csproj`** (двойная точка), exe — `TelescopeShop..exe`.
-  Путь к exe для ручного запуска: `bin\Debug\net10.0\TelescopeShop..exe`.
+- **Namespace `TelescopeShop`** — совпадает с именем проекта (раньше был
+  `TelescopeShop_` из-за двойной точки в имени csproj; файлы переименованы).
+- **Имя exe — `TelescopeShop.exe`** (без двойной точки).
+  Путь к exe для ручного запуска: `bin\Debug\net10.0\TelescopeShop.exe`.
 - **SQLite-БД** — `Telescope/telescope.db` (строка подключения `TelescopeDb` в `appsettings.json`).
   Файлы `*.db`, `*.db-shm`, `*.db-wal` в `.gitignore`; `Telescope/.gitkeep` держит папку.
   БД восстанавливается через `dotnet ef database update` (seed в `TelescopeDbContext.OnModelCreating`).
@@ -45,7 +46,11 @@ dotnet ef migrations add <Name> --output-dir Data/Migrations  # новая ми�
 - `Pages/Index.cshtml(.cs)` — каталог; фильтрация на сервере (QueryString: `search`,
   `apertureMin/Max`, `focalMin/Max`, `barlow`); панель фильтров — нативный `<details>` без JS.
 - `Pages/Telescope.cshtml(.cs)` — страница товара, маршрут `@page "{id:int}"` → `/Telescope/{id}`;
-  `OnGetAsync(int id)` возвращает `NotFound()` при отсутствии; блок «Похожие телескопы».
+  `OnGetAsync(int id)` возвращает `NotFound()` при отсутствии; секция «Галерея»
+  (`#gallery`) в `.product-media`: для Id=1 (Celestron 130/650) — 2 снимка из
+  `wwwroot/AstroPhoto` (свойство `Gallery` PageModel), для остальных моделей —
+  2 слота-заглушки; клик по снимку открывает lightbox во весь экран
+  (чистый CSS на `:target`, без JS); блок «Похожие телескопы».
 - `wwwroot/css/site.css` — все стили витрины.
 
 ### Конвенции маршрутов
@@ -70,13 +75,14 @@ dotnet ef migrations add <Name> --output-dir Data/Migrations  # новая ми�
 
 ```powershell
 # остановить зависшие процессы приложения перед сборкой (иначе MSB3026 file-lock)
-Get-Process -Name "TelescopeShop." -Force -ErrorAction SilentlyContinue | Stop-Process
+Stop-Process -Name "TelescopeShop" -Force -ErrorAction SilentlyContinue
 dotnet build --nologo -v q
 ```
 
-Smoke-тест (вручную или скриптом): запустить exe на `--urls http://127.0.0.1:5199`,
+Smoke-тест (вручную или скриптом): запустить exe на `--urls http://127.0.0.1:5199`
+**из корня проекта** (путь к SQLite относительный; другой cwd → 500 на всех запросах),
 проверить `GET /` (10 карточек), `GET /Telescope/{1..10}` (200 + описание),
 `GET /Telescope/999` (404), `GET /telescopes` (JSON + `description`).
-После теста убить процесс по имени `TelescopeShop.`.
+После теста убить процесс по имени `TelescopeShop`.
 
 Ловушка PowerShell: присваивание после `&&` даёт ParserError — используй `;`.

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace TelescopeShop_.Models;
+namespace TelescopeShop.Models;
 
 public class Telescope
 {

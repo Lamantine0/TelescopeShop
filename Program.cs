@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using TelescopeShop_.Data;
+using TelescopeShop.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

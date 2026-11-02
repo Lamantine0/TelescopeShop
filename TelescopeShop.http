@@ -1,0 +1,6 @@
+@TelescopeShop_HostAddress = http://localhost:5118
+
+GET {{TelescopeShop_HostAddress}}/telescopes
+Accept: application/json
+
+###

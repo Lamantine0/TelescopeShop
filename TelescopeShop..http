@@ -1,6 +1,0 @@
-@TelescopeShop__HostAddress = http://localhost:5118
-
-GET {{TelescopeShop__HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace TelescopeShop_.Data.Migrations
+namespace TelescopeShop.Data.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

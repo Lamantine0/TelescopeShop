@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using TelescopeShop_.Data;
-using TelescopeShop_.Models;
+using TelescopeShop.Data;
+using TelescopeShop.Models;
 
-namespace TelescopeShop_.Pages;
+namespace TelescopeShop.Pages;
 
 public class TelescopeModel : PageModel
 {
@@ -19,6 +19,8 @@ public class TelescopeModel : PageModel
 
     public IReadOnlyList<Telescope> Related { get; private set; } = [];
 
+    public IReadOnlyList<string> Gallery { get; private set; } = [];
+
     public async Task<IActionResult> OnGetAsync(int id, CancellationToken cancellationToken)
     {
         Telescope = await _context.Telescopes
@@ -29,6 +31,14 @@ public class TelescopeModel : PageModel
         {
             return NotFound();
         }
+
+        Gallery = Telescope.Id == 1
+            ? new[]
+            {
+                "~/AstroPhoto/Celestron Astro 130.jpg",
+                "~/AstroPhoto/Celestron Astro 130.png"
+            }
+            : Array.Empty<string>();
 
         // Похожие: той же апертуры или того же производителя, кроме текущего.
         Related = await _context.Telescopes

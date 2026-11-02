@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace TelescopeShop_.Data.Migrations
+namespace TelescopeShop.Data.Migrations
 {
     /// <inheritdoc />
     public partial class SeedTelescopes : Migration

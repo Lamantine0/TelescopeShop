@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TelescopeShop_.Data;
+using TelescopeShop.Data;
 
 #nullable disable
 
-namespace TelescopeShop_.Data.Migrations
+namespace TelescopeShop.Data.Migrations
 {
     [DbContext(typeof(TelescopeDbContext))]
     [Migration("20261029130405_InitialCreate")]
@@ -19,7 +19,7 @@ namespace TelescopeShop_.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.11");
 
-            modelBuilder.Entity("TelescopeShop_.Models.Telescope", b =>
+            modelBuilder.Entity("TelescopeShop.Models.Telescope", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

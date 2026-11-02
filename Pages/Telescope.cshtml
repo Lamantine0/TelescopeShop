@@ -1,5 +1,5 @@
 @page "{id:int}"
-@model TelescopeShop_.Pages.TelescopeModel
+@model TelescopeShop.Pages.TelescopeModel
 @{
     var t = Model.Telescope!;
     ViewData["Title"] = $"{t.Manufacturer} — апертура {t.Aperture} мм";
@@ -16,6 +16,46 @@
         <img src="@Url.Content($"~/Product/telescope-{t.Id}.png")"
              alt="@t.Manufacturer, апертура @t.Aperture мм"
              asp-append-version="true" />
+
+        <section class="product-gallery" id="gallery">
+            <h2 class="gallery-title">Галерея</h2>
+            @if (Model.Gallery.Count > 0)
+            {
+                <div class="gallery-thumbs">
+                    @for (var i = 0; i < Model.Gallery.Count; i++)
+                    {
+                        <figure class="gallery-thumb">
+                            <a class="gallery-zoom" href="#gallery-photo-@(i + 1)"
+                               aria-label="Открыть фото @(i + 1) во весь экран">
+                                <img src="@Url.Content(Model.Gallery[i])"
+                                     alt="@t.Manufacturer — галерея, фото @(i + 1)"
+                                     asp-append-version="true"
+                                     loading="lazy" />
+                            </a>
+                        </figure>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="gallery-thumbs">
+                    <figure class="gallery-thumb">Фото 1</figure>
+                    <figure class="gallery-thumb">Фото 2</figure>
+                </div>
+            }
+        </section>
+
+        @for (var i = 0; i < Model.Gallery.Count; i++)
+        {
+            <div id="gallery-photo-@(i + 1)" class="lightbox">
+                <a class="lightbox-backdrop" href="#gallery" aria-label="Закрыть просмотр"></a>
+                <img class="lightbox-img" src="@Url.Content(Model.Gallery[i])"
+                     alt="@t.Manufacturer — галерея, фото @(i + 1)"
+                     asp-append-version="true" />
+                <a class="lightbox-close" href="#gallery" aria-label="Закрыть">&times;</a>
+                <span class="lightbox-caption">Фото @(i + 1) из @Model.Gallery.Count</span>
+            </div>
+        }
     </div>
 
     <div class="product-info">

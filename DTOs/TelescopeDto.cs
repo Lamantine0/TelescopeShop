@@ -1,4 +1,4 @@
-namespace TelescopeShop_.DTOs;
+namespace TelescopeShop.DTOs;
 
 public class TelescopeDto
 {

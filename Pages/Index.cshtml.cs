@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using TelescopeShop_.Data;
-using TelescopeShop_.Models;
+using TelescopeShop.Data;
+using TelescopeShop.Models;
 
-namespace TelescopeShop_.Pages;
+namespace TelescopeShop.Pages;
 
 public class IndexModel : PageModel
 {
