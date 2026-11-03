@@ -8,11 +8,15 @@ namespace TelescopeShop.Pages;
 
 public class TelescopeModel : PageModel
 {
-    private readonly TelescopeDbContext _context;
+    private static readonly string[] ImageExtensions = [".jpg", ".jpeg", ".png", ".webp"];
 
-    public TelescopeModel(TelescopeDbContext context)
+    private readonly TelescopeDbContext _context;
+    private readonly IWebHostEnvironment _environment;
+
+    public TelescopeModel(TelescopeDbContext context, IWebHostEnvironment environment)
     {
         _context = context;
+        _environment = environment;
     }
 
     public Telescope? Telescope { get; private set; }
@@ -32,13 +36,13 @@ public class TelescopeModel : PageModel
             return NotFound();
         }
 
-        Gallery = Telescope.Id == 1
-            ? new[]
-            {
-                "~/AstroPhoto/Celestron Astro 130.jpg",
-                "~/AstroPhoto/Celestron Astro 130.png"
-            }
-            : Array.Empty<string>();
+        // Галерея по конвенции: wwwroot/AstroPhoto/{id}/* (папки нет — пусто).
+        Gallery = _environment.WebRootFileProvider
+            .GetDirectoryContents($"/AstroPhoto/{Telescope.Id}")
+            .Where(f => !f.IsDirectory && ImageExtensions.Contains(Path.GetExtension(f.Name), StringComparer.OrdinalIgnoreCase))
+            .OrderBy(f => f.Name, StringComparer.OrdinalIgnoreCase)
+            .Select(f => $"~/AstroPhoto/{Telescope.Id}/{f.Name}")
+            .ToList();
 
         // Похожие: той же апертуры или того же производителя, кроме текущего.
         Related = await _context.Telescopes

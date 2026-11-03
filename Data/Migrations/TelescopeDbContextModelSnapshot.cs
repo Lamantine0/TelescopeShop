@@ -42,6 +42,9 @@ namespace TelescopeShop.Data.Migrations
                     b.Property<int>("MaximumUsefulMagnification")
                         .HasColumnType("INTEGER");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Seeker")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -63,6 +66,7 @@ namespace TelescopeShop.Data.Migrations
                             FocalLength = 650,
                             Manufacturer = "Celestron",
                             MaximumUsefulMagnification = 260,
+                            Price = 24990m,
                             Seeker = "Red dot finder",
                             TripodHeight = 1200
                         },
@@ -75,6 +79,7 @@ namespace TelescopeShop.Data.Migrations
                             FocalLength = 650,
                             Manufacturer = "Sky-Watcher",
                             MaximumUsefulMagnification = 260,
+                            Price = 21990m,
                             Seeker = "Red dot finder",
                             TripodHeight = 1000
                         },
@@ -87,6 +92,7 @@ namespace TelescopeShop.Data.Migrations
                             FocalLength = 1200,
                             Manufacturer = "Orion",
                             MaximumUsefulMagnification = 406,
+                            Price = 39990m,
                             Seeker = "EZ Finder II",
                             TripodHeight = 1200
                         },
@@ -99,6 +105,7 @@ namespace TelescopeShop.Data.Migrations
                             FocalLength = 2032,
                             Manufacturer = "Meade",
                             MaximumUsefulMagnification = 406,
+                            Price = 129990m,
                             Seeker = "8x50 finder",
                             TripodHeight = 1300
                         },
@@ -111,6 +118,7 @@ namespace TelescopeShop.Data.Migrations
                             FocalLength = 1500,
                             Manufacturer = "Celestron",
                             MaximumUsefulMagnification = 300,
+                            Price = 74990m,
                             Seeker = "StarPointer red dot finder",
                             TripodHeight = 1200
                         },
@@ -123,6 +131,7 @@ namespace TelescopeShop.Data.Migrations
                             FocalLength = 1200,
                             Manufacturer = "Sky-Watcher",
                             MaximumUsefulMagnification = 400,
+                            Price = 34990m,
                             Seeker = "8x50 finder",
                             TripodHeight = 1250
                         },
@@ -135,6 +144,7 @@ namespace TelescopeShop.Data.Migrations
                             FocalLength = 700,
                             Manufacturer = "Celestron",
                             MaximumUsefulMagnification = 140,
+                            Price = 11990m,
                             Seeker = "5x24 finder",
                             TripodHeight = 1000
                         },
@@ -147,6 +157,7 @@ namespace TelescopeShop.Data.Migrations
                             FocalLength = 450,
                             Manufacturer = "Orion",
                             MaximumUsefulMagnification = 228,
+                            Price = 18990m,
                             Seeker = "EZ Finder II",
                             TripodHeight = 900
                         },
@@ -159,6 +170,7 @@ namespace TelescopeShop.Data.Migrations
                             FocalLength = 1250,
                             Manufacturer = "GSO",
                             MaximumUsefulMagnification = 508,
+                            Price = 89990m,
                             Seeker = "8x50 finder",
                             TripodHeight = 1300
                         },
@@ -171,6 +183,7 @@ namespace TelescopeShop.Data.Migrations
                             FocalLength = 1325,
                             Manufacturer = "Celestron",
                             MaximumUsefulMagnification = 204,
+                            Price = 54990m,
                             Seeker = "StarPointer red dot finder",
                             TripodHeight = 1100
                         });

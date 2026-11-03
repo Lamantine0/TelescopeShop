@@ -90,48 +90,62 @@ else
     <div class="catalog-grid">
         @foreach (var t in Model.Telescopes)
         {
-            <a class="card" asp-page="/Telescope" asp-route-id="@t.Id">
-                <div class="card-image">
-                    <img src="@Url.Content($"~/Product/telescope-{t.Id}.png")"
-                         alt="Телескоп @t.Manufacturer, апертура @t.Aperture мм"
-                         asp-append-version="true"
-                         loading="lazy" />
-                </div>
-                <div class="card-body">
-                    <h2 class="card-title">@t.Manufacturer</h2>
+            <div class="card">
+                <a class="card-link" asp-page="/Telescope" asp-route-id="@t.Id">
+                    <div class="card-image">
+                        <img asp-product-src="@t.Id"
+                             alt="Телескоп @t.Manufacturer, апертура @t.Aperture мм"
+                             loading="lazy" />
+                    </div>
+                    <div class="card-body">
+                        <h2 class="card-title">@t.Manufacturer</h2>
 
-                    <dl class="specs">
-                        <div class="spec">
-                            <dt>Апертура</dt>
-                            <dd>@t.Aperture мм</dd>
-                        </div>
-                        <div class="spec">
-                            <dt>Фокусное расстояние</dt>
-                            <dd>@t.FocalLength мм</dd>
-                        </div>
-                        <div class="spec">
-                            <dt>Высота треноги</dt>
-                            <dd>@t.TripodHeight мм</dd>
-                        </div>
-                        <div class="spec">
-                            <dt>Искатель</dt>
-                            <dd>@t.Seeker</dd>
-                        </div>
-                        <div class="spec">
-                            <dt>Линза Барлоу</dt>
-                            <dd>
-                                <span class="badge @(t.BarlowLensIncluded ? "badge-yes" : "badge-no")">
-                                    @(t.BarlowLensIncluded ? "Да" : "Нет")
-                                </span>
-                            </dd>
-                        </div>
-                        <div class="spec">
-                            <dt>Макс. увеличение</dt>
-                            <dd>@t.MaximumUsefulMagnification×</dd>
-                        </div>
-                    </dl>
+                        <dl class="specs">
+                            <div class="spec">
+                                <dt>Апертура</dt>
+                                <dd>@t.Aperture мм</dd>
+                            </div>
+                            <div class="spec">
+                                <dt>Фокусное расстояние</dt>
+                                <dd>@t.FocalLength мм</dd>
+                            </div>
+                            <div class="spec">
+                                <dt>Высота треноги</dt>
+                                <dd>@t.TripodHeight мм</dd>
+                            </div>
+                            <div class="spec">
+                                <dt>Искатель</dt>
+                                <dd>@t.Seeker</dd>
+                            </div>
+                            <div class="spec">
+                                <dt>Линза Барлоу</dt>
+                                <dd>
+                                    <span class="badge @(t.BarlowLensIncluded ? "badge-yes" : "badge-no")">
+                                        @(t.BarlowLensIncluded ? "Да" : "Нет")
+                                    </span>
+                                </dd>
+                            </div>
+                            <div class="spec">
+                                <dt>Макс. увеличение</dt>
+                                <dd>@t.MaximumUsefulMagnification×</dd>
+                            </div>
+                        </dl>
+
+                        @if (t.Price > 0)
+                        {
+                            <p class="card-price">@t.Price.ToString("N0", System.Globalization.CultureInfo.GetCultureInfo("ru-RU")) ₽</p>
+                        }
+                        else
+                        {
+                            <p class="card-price card-price-request">Цена по запросу</p>
+                        }
+                    </div>
+                </a>
+
+                <div class="card-actions">
+                    <a class="btn-buy" asp-page="/Checkout" asp-route-id="@t.Id">Купить</a>
                 </div>
-            </a>
+            </div>
         }
     </div>
 }

@@ -13,9 +13,8 @@
 
 <article class="product">
     <div class="product-media">
-        <img src="@Url.Content($"~/Product/telescope-{t.Id}.png")"
-             alt="@t.Manufacturer, апертура @t.Aperture мм"
-             asp-append-version="true" />
+        <img asp-product-src="@t.Id"
+             alt="@t.Manufacturer, апертура @t.Aperture мм" />
 
         <section class="product-gallery" id="gallery">
             <h2 class="gallery-title">Галерея</h2>
@@ -67,6 +66,18 @@
             </span>
         </p>
 
+        <div class="product-buy">
+            @if (t.Price > 0)
+            {
+                <span class="product-price">@t.Price.ToString("N0", System.Globalization.CultureInfo.GetCultureInfo("ru-RU")) ₽</span>
+            }
+            else
+            {
+                <span class="product-price product-price-request">Цена по запросу</span>
+            }
+            <a class="btn-buy" asp-page="/Checkout" asp-route-id="@t.Id">Купить</a>
+        </div>
+
         <dl class="product-specs">
             <div class="product-spec">
                 <dt>Апертура</dt>
@@ -110,9 +121,8 @@
             {
                 <a class="related-card" asp-page="/Telescope" asp-route-id="@r.Id">
                     <div class="related-image">
-                        <img src="@Url.Content($"~/Product/telescope-{r.Id}.png")"
+                        <img asp-product-src="@r.Id"
                              alt="@r.Manufacturer"
-                             asp-append-version="true"
                              loading="lazy" />
                     </div>
                     <div class="related-body">

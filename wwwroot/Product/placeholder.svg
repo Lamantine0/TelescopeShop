@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="450" viewBox="0 0 600 450" role="img" aria-label="Фото скоро">
+  <rect width="600" height="450" fill="#e8eef5"/>
+  <g fill="none" stroke="#9db4cc" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M170 250 L360 190 L375 235 L185 295 Z"/>
+    <path d="M360 190 L395 175 L410 220 L375 235"/>
+    <path d="M265 275 L245 350"/>
+    <path d="M245 350 L215 385 M245 350 L280 385"/>
+  </g>
+  <text x="300" y="425" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="#5b7089">Фото скоро</text>
+</svg>

@@ -1,0 +1,75 @@
+@page "{id:int}"
+@model TelescopeShop.Pages.CheckoutModel
+@{
+    var t = Model.Telescope!;
+    ViewData["Title"] = "Оформление заказа";
+}
+
+<nav class="breadcrumb">
+    <a asp-page="/Index">Каталог</a>
+    <span class="breadcrumb-sep" aria-hidden="true">/</span>
+    <a asp-page="/Telescope" asp-route-id="@t.Id">@t.Manufacturer</a>
+    <span class="breadcrumb-sep" aria-hidden="true">/</span>
+    <span>Оформление заказа</span>
+</nav>
+
+<h1 class="checkout-title">Оформление заказа</h1>
+
+@if (Model.OrderAccepted)
+{
+    <div class="order-success" role="status">
+        <h2>Спасибо, заказ принят!</h2>
+        <p>
+            Мы свяжемся с вами по телефону <strong>@Model.Phone</strong>.
+            Это демо-заглушка: данные не сохраняются и никуда не отправляются.
+        </p>
+        <div class="checkout-actions">
+            <a class="btn-buy" asp-page="/Telescope" asp-route-id="@t.Id">Вернуться к телескопу</a>
+            <a class="filter-reset" asp-page="/Index">В каталог</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="checkout-grid">
+        <form method="post" class="checkout-form">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+            <label class="checkout-field">
+                <span class="checkout-label">Имя *</span>
+                <input asp-for="CustomerName" class="filter-input" autocomplete="name" />
+                <span asp-validation-for="CustomerName" class="field-error"></span>
+            </label>
+
+            <label class="checkout-field">
+                <span class="checkout-label">Телефон *</span>
+                <input asp-for="Phone" class="filter-input" autocomplete="tel" placeholder="+7 999 000-00-00" />
+                <span asp-validation-for="Phone" class="field-error"></span>
+            </label>
+
+            <label class="checkout-field">
+                <span class="checkout-label">Комментарий</span>
+                <textarea asp-for="Comment" class="filter-input checkout-textarea" rows="4"
+                          placeholder="Пожелания к заказу…"></textarea>
+            </label>
+
+            <button type="submit" class="filter-submit">Оформить</button>
+            <p class="checkout-note">Демо-заглушка: заказ не сохраняется и не отправляется.</p>
+        </form>
+
+        <aside class="checkout-summary">
+            <h2 class="checkout-summary-title">Ваш заказ</h2>
+            <img asp-product-src="@t.Id" alt="@t.Manufacturer" />
+            <p class="checkout-product">@t.Manufacturer</p>
+            <p class="checkout-specs">@t.Aperture мм · f/@t.FocalLength мм</p>
+            @if (t.Price > 0)
+            {
+                <p class="checkout-price">@t.Price.ToString("N0", System.Globalization.CultureInfo.GetCultureInfo("ru-RU")) ₽</p>
+            }
+            else
+            {
+                <p class="checkout-price checkout-price-request">Цена по запросу</p>
+            }
+        </aside>
+    </div>
+}

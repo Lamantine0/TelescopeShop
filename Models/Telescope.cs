@@ -22,4 +22,6 @@ public class Telescope
     public int FocalLength { get; set; }
 
     public string Description { get; set; } = string.Empty;
+
+    public decimal Price { get; set; }
 }

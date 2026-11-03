@@ -16,7 +16,8 @@
 
 ```powershell
 dotnet build --nologo -v q          # сборка
-dotnet run                          # запуск
+.\run.ps1                           # остановка старого процесса + сборка + запуск
+dotnet run                          # запуск вручную
 dotnet ef database update           # применить миграции
 dotnet ef migrations add <Name> --output-dir Data/Migrations  # новая миграция
 ```
@@ -32,9 +33,14 @@ dotnet ef migrations add <Name> --output-dir Data/Migrations  # новая ми�
   БД восстанавливается через `dotnet ef database update` (seed в `TelescopeDbContext.OnModelCreating`).
 - **Seed-данные** — 10 телескопов заданы через `HasData` в `Data/TelescopeDbContext.cs`.
   Правка seed-данных требует новой миграции (EF сгенерирует `UpdateData`).
-- **Изображения товаров** — `wwwroot/Product/telescope-1.png` … `telescope-10.png`,
-  отдаются через `UseStaticFiles()` по `/Product/telescope-{id}.png`.
+- **Изображения товаров** — конвенция `wwwroot/Product/telescope-{id}.png`
+  (также `.webp`/`.jpg`/`.jpeg`), тег-хелпер `asp-product-src`
+  (`TagHelpers/ProductImageTagHelper.cs`) проверяет файл через
+  `WebRootFileProvider`; нет файла → заглушка `/Product/placeholder.svg`.
+  Новый телескоп не требует ручной работы с картинками.
   Источники/лицензии — `wwwroot/Product/CREDITS.txt`. Иллюстративные, не точные модели.
+- **Галерея товара** — по конвенции `wwwroot/AstroPhoto/{id}/*` (сканируется в
+  `Pages/Telescope.cshtml.cs`); папки нет — слоты-заглушки в разметке.
 
 ## Архитектура
 
@@ -42,21 +48,32 @@ dotnet ef migrations add <Name> --output-dir Data/Migrations  # новая ми�
   Swagger (только в Development), `UseStaticFiles`, `MapControllers` + `MapRazorPages`.
 - `Controllers/TelescopesController.cs` — CRUD API, маршрут `[Route("[controller]")]` → `/telescopes`
   (GET/GET by id/POST 201/PUT 204/DELETE 204). `Apply()` — фильтры, `ToDto()` — проекция в DTO.
-- `Models/Telescope.cs` + `DTOs/TelescopeDto.cs` — модель и DTO (оба содержат `Description`).
+- `Models/Telescope.cs` + `DTOs/TelescopeDto.cs` — модель и DTO (оба содержат `Description` и `Price`;
+  цена есть и в seed — 10 значений в ₽).
 - `Pages/Index.cshtml(.cs)` — каталог; фильтрация на сервере (QueryString: `search`,
   `apertureMin/Max`, `focalMin/Max`, `barlow`); панель фильтров — нативный `<details>` без JS.
 - `Pages/Telescope.cshtml(.cs)` — страница товара, маршрут `@page "{id:int}"` → `/Telescope/{id}`;
   `OnGetAsync(int id)` возвращает `NotFound()` при отсутствии; секция «Галерея»
-  (`#gallery`) в `.product-media`: для Id=1 (Celestron 130/650) — 2 снимка из
-  `wwwroot/AstroPhoto` (свойство `Gallery` PageModel), для остальных моделей —
-  2 слота-заглушки; клик по снимку открывает lightbox во весь экран
-  (чистый CSS на `:target`, без JS); блок «Похожие телескопы».
+  (`#gallery`) в `.product-media`: снимки из `wwwroot/AstroPhoto/{id}/*`
+  (свойство `Gallery` PageModel), нет папки — 2 слота-заглушки;
+  клик по снимку открывает lightbox во весь экран
+  (чистый CSS на `:target`, без JS); блок «Похожие телескопы»;
+  цена + кнопка «Купить» (`product-buy`) ведут на `/Checkout/{id}`.
+- `Pages/Checkout.cshtml(.cs)` — демо-заглушка заказа, маршрут `/Checkout/{id:int}`;
+  форма (имя/телефон обязательны через `[Required(ErrorMessage=…)]`, комментарий
+  опционален) с серверной валидацией, antiforgery штатный; `OnPostAsync`
+  не сохраняет ничего — `OrderAccepted = true` и сообщение «заказ принят»;
+  `NotFound()` при отсутствии Id.
+- `TagHelpers/ProductImageTagHelper.cs` — `<img asp-product-src="{id}">`:
+  конвенция `telescope-{id}.{png|webp|jpg|jpeg}` → иначе `placeholder.svg`,
+  `?v=LastModified` вместо `asp-append-version`. Подключён в `Pages/_ViewImports.cshtml`.
 - `wwwroot/css/site.css` — все стили витрины.
 
 ### Конвенции маршрутов
 
 - Каталог — на `/` (`Pages/Index`), **не** на `/Telescopes`, чтобы не конфликтовать с API `/telescopes`.
 - Страница товара — `/Telescope/{id}` (конфликтует только сама с собой; API остаётся на `/telescopes`).
+- Заказ — `/Checkout/{id}` (заглушка, конфликтов нет).
 
 ## Язык и стиль
 
