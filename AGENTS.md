@@ -57,7 +57,7 @@ dotnet ef migrations add <Name> --output-dir Data/Migrations  # новая ми�
 - `Models/Telescope.cs` + `DTOs/TelescopeDto.cs` — модель и DTO (оба содержат `Description` и `Price`;
   цена есть и в seed — 10 значений в ₽).
 - `Pages/Index.cshtml(.cs)` — каталог; фильтрация на сервере (QueryString: `search`,
-  `apertureMin/Max`, `focalMin/Max`, `barlow`); панель фильтров — нативный `<details>` без JS.
+  `manufacturer`, `apertureMin/Max`, `focalMin/Max`, `barlow`); панель фильтров — нативный `<details>` без JS.
 - `Pages/Telescope.cshtml(.cs)` — страница товара, маршрут `@page "{id:int}"` → `/Telescope/{id}`;
   `OnGetAsync(int id)` возвращает `NotFound()` при отсутствии; секция «Галерея»
   (`#gallery`) в `.product-media`: снимки из `wwwroot/AstroPhoto/{id}/*`

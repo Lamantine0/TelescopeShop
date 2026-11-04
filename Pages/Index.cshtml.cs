@@ -17,8 +17,13 @@ public class IndexModel : PageModel
 
     public IReadOnlyList<Telescope> Telescopes { get; private set; } = [];
 
+    public IReadOnlyList<string> Manufacturers { get; private set; } = [];
+
     [BindProperty(SupportsGet = true)]
     public string? Search { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public string? Manufacturer { get; set; }
 
     [BindProperty(SupportsGet = true)]
     public int? ApertureMin { get; set; }
@@ -38,7 +43,9 @@ public class IndexModel : PageModel
 
     public bool HasSearch => !string.IsNullOrWhiteSpace(Search);
 
-    public bool HasFilters => HasSearch
+    public bool HasManufacturer => !string.IsNullOrWhiteSpace(Manufacturer);
+
+    public bool HasFilters => HasSearch || HasManufacturer
         || ApertureMin.HasValue || ApertureMax.HasValue
         || FocalMin.HasValue || FocalMax.HasValue
         || Barlow.HasValue;
@@ -50,6 +57,7 @@ public class IndexModel : PageModel
         {
             var count = 0;
             if (HasSearch) count++;
+            if (HasManufacturer) count++;
             if (ApertureMin.HasValue || ApertureMax.HasValue) count++;
             if (FocalMin.HasValue || FocalMax.HasValue) count++;
             if (Barlow.HasValue) count++;
@@ -59,12 +67,25 @@ public class IndexModel : PageModel
 
     public async Task OnGetAsync(CancellationToken cancellationToken)
     {
+        Manufacturers = await _context.Telescopes
+            .AsNoTracking()
+            .Select(t => t.Manufacturer)
+            .Distinct()
+            .OrderBy(m => m)
+            .ToListAsync(cancellationToken);
+
         var query = _context.Telescopes.AsNoTracking();
 
         if (!string.IsNullOrWhiteSpace(Search))
         {
             var term = Search.Trim();
             query = query.Where(t => t.Manufacturer.Contains(term));
+        }
+
+        if (!string.IsNullOrWhiteSpace(Manufacturer))
+        {
+            var manufacturer = Manufacturer.Trim();
+            query = query.Where(t => t.Manufacturer == manufacturer);
         }
 
         if (ApertureMin.HasValue)

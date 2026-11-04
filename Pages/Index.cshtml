@@ -30,6 +30,14 @@
                        placeholder="Поиск по названию (производителю)…"
                        autocomplete="off" />
 
+                <select name="manufacturer" class="filter-select">
+                    <option value="">Производитель: все</option>
+                    @foreach (var m in Model.Manufacturers)
+                    {
+                        <option value="@m" selected="@(Model.Manufacturer == m)">@m</option>
+                    }
+                </select>
+
                 <select name="barlow" class="filter-select">
                     <option value="">Линза Барлоу: все</option>
                     <option value="true" selected="@(Model.Barlow == true)">Только с линзой</option>
