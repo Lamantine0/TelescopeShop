@@ -53,7 +53,8 @@ dotnet ef migrations add <Name> --output-dir Data/Migrations  # новая ми�
 - `Program.cs` — регистрирует DbContext (SQLite), `AddControllers`, `AddRazorPages`,
   Swagger (только в Development), `UseStaticFiles`, `MapControllers` + `MapRazorPages`.
 - `Controllers/TelescopesController.cs` — CRUD API, маршрут `[Route("[controller]")]` → `/telescopes`
-  (GET/GET by id/POST 201/PUT 204/DELETE 204). `Apply()` — фильтры, `ToDto()` — проекция в DTO.
+  (GET/GET by id/POST 201/PUT 204/DELETE 204). `ToDto()` — проекция одиночной сущности в DTO;
+  в `GetAll` — проекция через `Select` с объектным инициализатором.
 - `Models/Telescope.cs` + `DTOs/TelescopeDto.cs` — модель и DTO (оба содержат `Description` и `Price`;
   цена есть и в seed — 10 значений в ₽).
 - `Pages/Index.cshtml(.cs)` — каталог; фильтрация на сервере (QueryString: `search`,

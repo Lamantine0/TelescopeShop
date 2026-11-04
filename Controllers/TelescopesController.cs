@@ -22,7 +22,19 @@ public class TelescopesController : ControllerBase
     {
         var telescopes = await _context.Telescopes
             .AsNoTracking()
-            .Select(t => ToDto(t))
+            .Select(t => new TelescopeDto
+            {
+                Id = t.Id,
+                Manufacturer = t.Manufacturer,
+                TripodHeight = t.TripodHeight,
+                Aperture = t.Aperture,
+                Seeker = t.Seeker,
+                BarlowLensIncluded = t.BarlowLensIncluded,
+                MaximumUsefulMagnification = t.MaximumUsefulMagnification,
+                FocalLength = t.FocalLength,
+                Description = t.Description,
+                Price = t.Price
+            })
             .ToListAsync(cancellationToken);
 
         return Ok(telescopes);
@@ -41,8 +53,18 @@ public class TelescopesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<TelescopeDto>> Create(TelescopeDto dto, CancellationToken cancellationToken)
     {
-        var telescope = new Telescope();
-        Apply(dto, telescope);
+        var telescope = new Telescope
+        {
+            Manufacturer = dto.Manufacturer,
+            TripodHeight = dto.TripodHeight,
+            Aperture = dto.Aperture,
+            Seeker = dto.Seeker,
+            BarlowLensIncluded = dto.BarlowLensIncluded,
+            MaximumUsefulMagnification = dto.MaximumUsefulMagnification,
+            FocalLength = dto.FocalLength,
+            Description = dto.Description,
+            Price = dto.Price
+        };
 
         _context.Telescopes.Add(telescope);
         await _context.SaveChangesAsync(cancellationToken);
@@ -61,7 +83,16 @@ public class TelescopesController : ControllerBase
             return NotFound();
         }
 
-        Apply(dto, telescope);
+        telescope.Manufacturer = dto.Manufacturer;
+        telescope.TripodHeight = dto.TripodHeight;
+        telescope.Aperture = dto.Aperture;
+        telescope.Seeker = dto.Seeker;
+        telescope.BarlowLensIncluded = dto.BarlowLensIncluded;
+        telescope.MaximumUsefulMagnification = dto.MaximumUsefulMagnification;
+        telescope.FocalLength = dto.FocalLength;
+        telescope.Description = dto.Description;
+        telescope.Price = dto.Price;
+
         await _context.SaveChangesAsync(cancellationToken);
 
         return NoContent();
@@ -82,19 +113,6 @@ public class TelescopesController : ControllerBase
         await _context.SaveChangesAsync(cancellationToken);
 
         return NoContent();
-    }
-
-    private static void Apply(TelescopeDto dto, Telescope telescope)
-    {
-        telescope.Manufacturer = dto.Manufacturer;
-        telescope.TripodHeight = dto.TripodHeight;
-        telescope.Aperture = dto.Aperture;
-        telescope.Seeker = dto.Seeker;
-        telescope.BarlowLensIncluded = dto.BarlowLensIncluded;
-        telescope.MaximumUsefulMagnification = dto.MaximumUsefulMagnification;
-        telescope.FocalLength = dto.FocalLength;
-        telescope.Description = dto.Description;
-        telescope.Price = dto.Price;
     }
 
     private static TelescopeDto ToDto(Telescope telescope)
