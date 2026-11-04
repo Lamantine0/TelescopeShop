@@ -28,6 +28,7 @@ wwwroot/Product/                      изображения товаров (tel
 wwwroot/Product/placeholder.svg       заглушка, если файла товара нет
 wwwroot/Product/CREDITS.txt           источники и лицензии фотографий
 wwwroot/AstroPhoto/{id}/              галерея товара (Id=1: 2 снимка)
+wwwroot/starfield.webp                фон звёздного неба
 wwwroot/css/site.css                  стили витрины
 ```
 

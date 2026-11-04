@@ -48,9 +48,11 @@
         {
             <div id="gallery-photo-@(i + 1)" class="lightbox">
                 <a class="lightbox-backdrop" href="#gallery" aria-label="Закрыть просмотр"></a>
-                <img class="lightbox-img" src="@Url.Content(Model.Gallery[i])"
-                     alt="@t.Manufacturer — галерея, фото @(i + 1)"
-                     asp-append-version="true" />
+                <a class="lightbox-img" href="#gallery" aria-label="Закрыть просмотр">
+                    <img src="@Url.Content(Model.Gallery[i])"
+                         alt="@t.Manufacturer — галерея, фото @(i + 1)"
+                         asp-append-version="true" />
+                </a>
                 <a class="lightbox-close" href="#gallery" aria-label="Закрыть">&times;</a>
                 <span class="lightbox-caption">Фото @(i + 1) из @Model.Gallery.Count</span>
             </div>
