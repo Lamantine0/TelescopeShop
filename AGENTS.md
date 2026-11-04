@@ -41,6 +41,12 @@ dotnet ef migrations add <Name> --output-dir Data/Migrations  # новая ми�
   Источники/лицензии — `wwwroot/Product/CREDITS.txt`. Иллюстративные, не точные модели.
 - **Галерея товара** — по конвенции `wwwroot/AstroPhoto/{id}/*` (сканируется в
   `Pages/Telescope.cshtml.cs`); папки нет — слоты-заглушки в разметке.
+  Lightbox на чистом CSS `:target`; повторный клик по изображению закрывает его
+  (фото обёрнуто в ссылку на `#gallery`).
+- **Рамки изображений** — в карточках каталога, «Похожих» и заказе фото
+  вписывается целиком (`object-fit: contain`) в рамку 4:3 с отступом/фоном.
+- **Фон страницы** — `wwwroot/starfield.webp` (звёздное небо) + затемняющие
+  градиенты в `body` (`wwwroot/css/site.css`).
 
 ## Архитектура
 
