@@ -30,13 +30,21 @@
                        placeholder="Поиск по названию (производителю)…"
                        autocomplete="off" />
 
-                <select name="manufacturer" class="filter-select">
-                    <option value="">Производитель: все</option>
-                    @foreach (var m in Model.Manufacturers)
-                    {
-                        <option value="@m" selected="@(Model.Manufacturer == m)">@m</option>
-                    }
-                </select>
+                <div class="filter-autocomplete">
+                    <input type="text"
+                           name="manufacturer"
+                           value="@Model.Manufacturer"
+                           class="filter-input filter-manufacturer"
+                           placeholder="Фирма (начните вводить)…"
+                           autocomplete="off"
+                           role="combobox"
+                           aria-autocomplete="list"
+                           aria-expanded="false"
+                           aria-controls="manufacturer-suggestions"
+                           data-manufacturer-autocomplete
+                           data-source="manufacturer-data" />
+                    <ul class="filter-suggestions" id="manufacturer-suggestions" role="listbox" hidden></ul>
+                </div>
 
                 <select name="barlow" class="filter-select">
                     <option value="">Линза Барлоу: все</option>
@@ -156,4 +164,9 @@ else
             </div>
         }
     </div>
+}
+
+@section Scripts {
+    <script type="application/json" id="manufacturer-data">@Json.Serialize(Model.Manufacturers)</script>
+    <script src="~/js/manufacturer-autocomplete.js" asp-append-version="true"></script>
 }

@@ -84,8 +84,8 @@ public class IndexModel : PageModel
 
         if (!string.IsNullOrWhiteSpace(Manufacturer))
         {
-            var manufacturer = Manufacturer.Trim();
-            query = query.Where(t => t.Manufacturer == manufacturer);
+            var manufacturer = Manufacturer.Trim().ToLower();
+            query = query.Where(t => t.Manufacturer.ToLower().Contains(manufacturer));
         }
 
         if (ApertureMin.HasValue)
