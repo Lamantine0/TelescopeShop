@@ -16,6 +16,7 @@
 
 ```powershell
 dotnet build --nologo -v q          # сборка
+dotnet test "tests\TelescopeShop.Tests\TelescopeShop.Tests.csproj" --nologo -v q  # тесты
 .\run.ps1                           # остановка старого процесса + сборка + запуск
 dotnet run                          # запуск вручную
 dotnet ef database update           # применить миграции
@@ -58,7 +59,10 @@ dotnet ef migrations add <Name> --output-dir Data/Migrations  # новая ми�
 - `Models/Telescope.cs` + `DTOs/TelescopeDto.cs` — модель и DTO (оба содержат `Description` и `Price`;
   цена есть и в seed — 10 значений в ₽).
 - `Pages/Index.cshtml(.cs)` — каталог; фильтрация на сервере (QueryString: `search`,
-  `manufacturer`, `apertureMin/Max`, `focalMin/Max`, `barlow`). Поле `manufacturer` —
+  `manufacturer`, `apertureMin/Max`, `focalMin/Max`, `barlow`) и сортировка `sort`
+  (`price-asc/desc`, `aperture-asc/desc`; цена сортируется в памяти — в SQLite это TEXT,
+  «Цена по запросу» всегда в конце). Активные фильтры выводятся чипами со ссылками,
+  сохраняющими остальные параметры и `sort`. Поле `manufacturer` —
   текстовый ввод с подсказками фирм на JS (`wwwroot/js/manufacturer-autocomplete.js`),
   клик по подсказке только заполняет поле (фильтр — по кнопке «Применить»); совпадение
   по подстроке без учёта регистра; панель фильтров — нативный `<details>` без JS.
@@ -78,6 +82,9 @@ dotnet ef migrations add <Name> --output-dir Data/Migrations  # новая ми�
   конвенция `telescope-{id}.{png|webp|jpg|jpeg}` → иначе `placeholder.svg`,
   `?v=LastModified` вместо `asp-append-version`. Подключён в `Pages/_ViewImports.cshtml`.
 - `wwwroot/css/site.css` — все стили витрины.
+- `tests/TelescopeShop.Tests` — xUnit-тесты (каталог, API, checkout). Основной
+  `TelescopeShop.csproj` исключает `tests/**` из компиляции; тесты используют
+  SQLite in-memory с seed из `TelescopeDbContext` (см. `TestDatabase.cs`).
 
 ### Конвенции маршрутов
 
@@ -104,6 +111,7 @@ dotnet ef migrations add <Name> --output-dir Data/Migrations  # новая ми�
 # остановить зависшие процессы приложения перед сборкой (иначе MSB3026 file-lock)
 Stop-Process -Name "TelescopeShop" -Force -ErrorAction SilentlyContinue
 dotnet build --nologo -v q
+dotnet test "tests\TelescopeShop.Tests\TelescopeShop.Tests.csproj" --nologo -v q
 ```
 
 Smoke-тест (вручную или скриптом): запустить exe на `--urls http://127.0.0.1:5199`

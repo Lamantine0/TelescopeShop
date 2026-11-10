@@ -374,6 +374,67 @@ a:hover {
     color: var(--text);
 }
 
+/* Active filters */
+.active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    max-width: 720px;
+    margin-top: 14px;
+}
+
+.active-filters-label {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    font-size: 0.85rem;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.filter-chip:hover {
+    color: var(--text);
+    background: var(--surface-hover);
+    border-color: var(--accent);
+    text-decoration: none;
+}
+
+.filter-chip-remove {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.filter-chip:hover .filter-chip-remove {
+    color: var(--text);
+}
+
+.active-filters-reset {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.active-filters-reset:hover {
+    color: var(--text);
+}
+
+.results-count {
+    max-width: 720px;
+    margin: 12px 0 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
 /* Catalog grid */
 .catalog-grid {
     display: grid;

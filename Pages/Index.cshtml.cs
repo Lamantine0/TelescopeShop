@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -5,6 +6,8 @@ using TelescopeShop.Data;
 using TelescopeShop.Models;
 
 namespace TelescopeShop.Pages;
+
+public sealed record ActiveFilter(string Label, string RemoveUrl);
 
 public class IndexModel : PageModel
 {
@@ -18,6 +21,10 @@ public class IndexModel : PageModel
     public IReadOnlyList<Telescope> Telescopes { get; private set; } = [];
 
     public IReadOnlyList<string> Manufacturers { get; private set; } = [];
+
+    public IReadOnlyList<ActiveFilter> ActiveFilters { get; private set; } = [];
+
+    public string? ClearFiltersUrl { get; private set; }
 
     [BindProperty(SupportsGet = true)]
     public string? Search { get; set; }
@@ -41,9 +48,14 @@ public class IndexModel : PageModel
     [BindProperty(SupportsGet = true)]
     public bool? Barlow { get; set; }
 
+    [BindProperty(SupportsGet = true)]
+    public string? Sort { get; set; }
+
     public bool HasSearch => !string.IsNullOrWhiteSpace(Search);
 
     public bool HasManufacturer => !string.IsNullOrWhiteSpace(Manufacturer);
+
+    public bool HasSort => !string.IsNullOrWhiteSpace(Sort) && Sort != "default";
 
     public bool HasFilters => HasSearch || HasManufacturer
         || ApertureMin.HasValue || ApertureMax.HasValue
@@ -78,8 +90,8 @@ public class IndexModel : PageModel
 
         if (!string.IsNullOrWhiteSpace(Search))
         {
-            var term = Search.Trim();
-            query = query.Where(t => t.Manufacturer.Contains(term));
+            var term = Search.Trim().ToLower();
+            query = query.Where(t => t.Manufacturer.ToLower().Contains(term));
         }
 
         if (!string.IsNullOrWhiteSpace(Manufacturer))
@@ -118,8 +130,135 @@ public class IndexModel : PageModel
             query = query.Where(t => t.BarlowLensIncluded == withBarlow);
         }
 
-        Telescopes = await query
-            .OrderBy(t => t.Id)
-            .ToListAsync(cancellationToken);
+        var telescopes = await query.ToListAsync(cancellationToken);
+
+        Telescopes = Sort switch
+        {
+            "price-asc" => telescopes
+                .OrderBy(t => t.Price == 0)
+                .ThenBy(t => t.Price)
+                .ThenBy(t => t.Id)
+                .ToList(),
+            "price-desc" => telescopes
+                .OrderBy(t => t.Price == 0)
+                .ThenByDescending(t => t.Price)
+                .ThenBy(t => t.Id)
+                .ToList(),
+            "aperture-desc" => telescopes
+                .OrderByDescending(t => t.Aperture)
+                .ThenBy(t => t.Id)
+                .ToList(),
+            "aperture-asc" => telescopes
+                .OrderBy(t => t.Aperture)
+                .ThenBy(t => t.Id)
+                .ToList(),
+            _ => telescopes.OrderBy(t => t.Id).ToList()
+        };
+
+        BuildActiveFilters();
+    }
+
+    private void BuildActiveFilters()
+    {
+        var filters = new List<ActiveFilter>();
+
+        if (HasSearch)
+        {
+            filters.Add(new($"Поиск: «{Search!.Trim()}»", BuildFilterUrl("search")));
+        }
+
+        if (HasManufacturer)
+        {
+            filters.Add(new($"Фирма: {Manufacturer!.Trim()}", BuildFilterUrl("manufacturer")));
+        }
+
+        if (ApertureMin.HasValue || ApertureMax.HasValue)
+        {
+            filters.Add(new($"Апертура: {FormatRange(ApertureMin, ApertureMax)}", BuildFilterUrl("aperture")));
+        }
+
+        if (FocalMin.HasValue || FocalMax.HasValue)
+        {
+            filters.Add(new($"Фокусное: {FormatRange(FocalMin, FocalMax)}", BuildFilterUrl("focal")));
+        }
+
+        if (Barlow.HasValue)
+        {
+            filters.Add(new(
+                Barlow.Value ? "Только с линзой Барлоу" : "Только без линзы Барлоу",
+                BuildFilterUrl("barlow")));
+        }
+
+        ActiveFilters = filters;
+        ClearFiltersUrl = HasFilters ? BuildFilterUrl("all") : null;
+    }
+
+    private static string FormatRange(int? min, int? max)
+    {
+        if (min.HasValue && max.HasValue)
+        {
+            return $"{min}–{max} мм";
+        }
+
+        if (min.HasValue)
+        {
+            return $"от {min} мм";
+        }
+
+        return $"до {max} мм";
+    }
+
+    private string BuildFilterUrl(string? remove)
+    {
+        var values = new Dictionary<string, string?>();
+
+        if (remove != "all")
+        {
+            if (remove != "search")
+            {
+                AddValue(values, "search", Search);
+            }
+
+            if (remove != "manufacturer")
+            {
+                AddValue(values, "manufacturer", Manufacturer);
+            }
+
+            if (remove != "aperture")
+            {
+                AddValue(values, "apertureMin", ApertureMin);
+                AddValue(values, "apertureMax", ApertureMax);
+            }
+
+            if (remove != "focal")
+            {
+                AddValue(values, "focalMin", FocalMin);
+                AddValue(values, "focalMax", FocalMax);
+            }
+
+            if (remove != "barlow" && Barlow.HasValue)
+            {
+                AddValue(values, "barlow", Barlow.Value ? "true" : "false");
+            }
+        }
+
+        AddValue(values, "sort", Sort);
+
+        var query = string.Join(
+            "&",
+            values.Select(pair =>
+                $"{Uri.EscapeDataString(pair.Key)}={Uri.EscapeDataString(pair.Value!)}"));
+
+        return string.IsNullOrEmpty(query) ? "/" : $"/?{query}";
+    }
+
+    private static void AddValue(Dictionary<string, string?> values, string key, object? value)
+    {
+        var text = Convert.ToString(value, CultureInfo.InvariantCulture);
+
+        if (!string.IsNullOrWhiteSpace(text))
+        {
+            values[key] = text;
+        }
     }
 }

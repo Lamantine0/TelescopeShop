@@ -11,7 +11,7 @@
         В наличии @Model.Telescopes.Count моделей.
     </p>
 
-    <details class="filter-panel" open="@(Model.HasFilters ? "true" : null)">
+    <details class="filter-panel" open="@(Model.HasFilters || Model.HasSort ? "true" : null)">
         <summary class="filter-toggle">
             <span class="filter-toggle-chevron" aria-hidden="true"></span>
             <span class="filter-toggle-text">Фильтры</span>
@@ -51,6 +51,17 @@
                     <option value="true" selected="@(Model.Barlow == true)">Только с линзой</option>
                     <option value="false" selected="@(Model.Barlow == false)">Только без линзы</option>
                 </select>
+
+                <label class="filter-group filter-sort">
+                    <span class="filter-label">Сортировка</span>
+                    <select name="sort" class="filter-select">
+                        <option value="" selected="@(!Model.HasSort)">По умолчанию</option>
+                        <option value="price-asc" selected="@(Model.Sort == "price-asc")">Цена ↓</option>
+                        <option value="price-desc" selected="@(Model.Sort == "price-desc")">Цена ↑</option>
+                        <option value="aperture-desc" selected="@(Model.Sort == "aperture-desc")">Апертура ↑</option>
+                        <option value="aperture-asc" selected="@(Model.Sort == "aperture-asc")">Апертура ↓</option>
+                    </select>
+                </label>
             </div>
 
             <div class="filter-row">
@@ -81,12 +92,28 @@
                 <button type="submit" class="filter-submit">Применить</button>
                 @if (Model.HasFilters)
                 {
-                    <a href="@Url.Page("/Index")" class="filter-reset">Сбросить фильтры</a>
+                    <a href="@Model.ClearFiltersUrl" class="filter-reset">Сбросить фильтры</a>
                 }
             </div>
         </form>
     </details>
 </section>
+
+@if (Model.HasFilters)
+{
+    <div class="active-filters">
+        <span class="active-filters-label">Активные фильтры:</span>
+        @foreach (var filter in Model.ActiveFilters)
+        {
+            <a class="filter-chip" href="@filter.RemoveUrl" aria-label="Убрать фильтр: @filter.Label">
+                <span>@filter.Label</span>
+                <span class="filter-chip-remove" aria-hidden="true">×</span>
+            </a>
+        }
+        <a class="active-filters-reset" href="@Model.ClearFiltersUrl">Сбросить все</a>
+    </div>
+    <p class="results-count">Найдено: @Model.Telescopes.Count</p>
+}
 
 @if (Model.Telescopes.Count == 0)
 {

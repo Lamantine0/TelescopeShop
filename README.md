@@ -88,6 +88,16 @@ dotnet run
 - Витрина каталога: `http://localhost:<port>/`
 - Swagger UI: `http://localhost:<port>/swagger`
 
+## Тесты
+
+Проект тестов: `tests/TelescopeShop.Tests` (xUnit). Покрыты фильтры/сортировка
+каталога, чипы активных фильтров, CRUD API и страница заказа. Тестовая БД —
+SQLite in-memory с seed-данными из `TelescopeDbContext`.
+
+```powershell
+dotnet test "tests\TelescopeShop.Tests\TelescopeShop.Tests.csproj" --nologo -v q
+```
+
 ## Витрина (Razor Pages)
 
 Страница `Pages/Index.cshtml` рендерится на сервере: `PageModel` читает
@@ -97,7 +107,10 @@ API остаётся на прежних маршрутах (`/telescopes`) и �
 
 Фильтрация каталога: `GET /?<параметры>` — фильтры комбинируются между собой.
 Панель фильтров сворачивается (нативный `<details>`, без JavaScript); при
-активных фильтрах она автоматически раскрыта и показывает счётчик.
+активных фильтрах она автоматически раскрыта и показывает счётчик. Активные
+фильтры выводятся чипами над сеткой: клик по чипу убирает один фильтр, ссылка
+«Сбросить все» очищает фильтры, сохраняя выбранную сортировку. Рядом показано
+«Найдено: N».
 
 Страница товара: `GET /Telescope/{id}` (`Pages/Telescope.cshtml`) — фото,
 галерея («Галерея»): снимки берутся из `wwwroot/AstroPhoto/{id}/` (для Id=1 —
@@ -113,9 +126,11 @@ API остаётся на прежних маршрутах (`/telescopes`) и �
 | `apertureMin` / `apertureMax` | диапазон апертуры, мм |
 | `focalMin` / `focalMax` | диапазон фокусного расстояния, мм |
 | `barlow` | `true` — только с линзой Барлоу, `false` — без неё |
+| `sort` | сортировка: пусто — по Id, `price-asc`/`price-desc` — цена (позиции «Цена по запросу» всегда в конце), `aperture-desc`/`aperture-asc` — апертура |
 
-Пример: `/?search=Celestron&apertureMin=100&apertureMax=200&focalMax=1600`.
-Фильтрация выполняется на сервере (`Pages/Index.cshtml.cs`). Поле фирмы
+Пример: `/?search=Celestron&apertureMin=100&apertureMax=200&focalMax=1600&sort=price-asc`.
+Фильтрация и сортировка выполняются на сервере (`Pages/Index.cshtml.cs`; цена
+сортируется в памяти, потому что в SQLite хранится как текст). Поле фирмы
 дополнительно получает подсказки при вводе (`wwwroot/js/manufacturer-autocomplete.js`);
 без JavaScript оно остаётся обычным текстовым фильтром.
 
