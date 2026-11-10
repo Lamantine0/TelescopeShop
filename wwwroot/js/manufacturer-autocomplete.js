@@ -4,7 +4,8 @@
 
   const list = document.getElementById(input.getAttribute("aria-controls"));
   const source = document.getElementById(input.dataset.source);
-  if (!list || !source) return;
+  const clearButton = document.querySelector("[data-manufacturer-clear]");
+  if (!list || !source || !clearButton) return;
 
   let manufacturers = [];
   try {
@@ -22,6 +23,10 @@
     list.hidden = !expanded;
   };
 
+  const syncClear = () => {
+    clearButton.hidden = input.value.trim().length === 0;
+  };
+
   const close = () => {
     matches = [];
     activeIndex = -1;
@@ -32,6 +37,7 @@
 
   const select = (value) => {
     input.value = value;
+    syncClear();
     close();
     input.focus();
   };
@@ -76,10 +82,19 @@
       .slice(0, 8);
     activeIndex = matches.length > 0 ? 0 : -1;
     render();
+    syncClear();
   };
+
+  clearButton.addEventListener("click", () => {
+    input.value = "";
+    close();
+    syncClear();
+    input.focus();
+  });
 
   input.addEventListener("input", update);
   input.addEventListener("focus", update);
+  syncClear();
 
   input.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {

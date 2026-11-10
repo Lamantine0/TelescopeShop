@@ -266,6 +266,38 @@ a:hover {
 
 .filter-autocomplete .filter-manufacturer {
     width: 100%;
+    padding-right: 32px;
+}
+
+.filter-clear {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+
+.filter-clear:hover,
+.filter-clear:focus-visible {
+    background: var(--surface-hover);
+    color: var(--text);
+    outline: none;
+}
+
+.filter-clear[hidden] {
+    display: none;
 }
 
 .filter-suggestions {
