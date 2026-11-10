@@ -47,7 +47,24 @@ public class TelescopesController : ControllerBase
             .AsNoTracking()
             .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
 
-        return telescope is null ? NotFound() : Ok(ToDto(telescope));
+        if (telescope is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(new TelescopeDto
+        {
+            Id = telescope.Id,
+            Manufacturer = telescope.Manufacturer,
+            TripodHeight = telescope.TripodHeight,
+            Aperture = telescope.Aperture,
+            Seeker = telescope.Seeker,
+            BarlowLensIncluded = telescope.BarlowLensIncluded,
+            MaximumUsefulMagnification = telescope.MaximumUsefulMagnification,
+            FocalLength = telescope.FocalLength,
+            Description = telescope.Description,
+            Price = telescope.Price
+        });
     }
 
     [HttpPost]
@@ -69,7 +86,8 @@ public class TelescopesController : ControllerBase
         _context.Telescopes.Add(telescope);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return CreatedAtAction(nameof(GetById), new { id = telescope.Id }, ToDto(telescope));
+        dto.Id = telescope.Id;
+        return CreatedAtAction(nameof(GetById), new { id = telescope.Id }, dto);
     }
 
     [HttpPut("{id:int}")]
@@ -113,22 +131,5 @@ public class TelescopesController : ControllerBase
         await _context.SaveChangesAsync(cancellationToken);
 
         return NoContent();
-    }
-
-    private static TelescopeDto ToDto(Telescope telescope)
-    {
-        return new TelescopeDto
-        {
-            Id = telescope.Id,
-            Manufacturer = telescope.Manufacturer,
-            TripodHeight = telescope.TripodHeight,
-            Aperture = telescope.Aperture,
-            Seeker = telescope.Seeker,
-            BarlowLensIncluded = telescope.BarlowLensIncluded,
-            MaximumUsefulMagnification = telescope.MaximumUsefulMagnification,
-            FocalLength = telescope.FocalLength,
-            Description = telescope.Description,
-            Price = telescope.Price
-        };
     }
 }

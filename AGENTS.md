@@ -54,8 +54,9 @@ dotnet ef migrations add <Name> --output-dir Data/Migrations  # новая ми�
 - `Program.cs` — регистрирует DbContext (SQLite), `AddControllers`, `AddRazorPages`,
   Swagger (только в Development), `UseStaticFiles`, `MapControllers` + `MapRazorPages`.
 - `Controllers/TelescopesController.cs` — CRUD API, маршрут `[Route("[controller]")]` → `/telescopes`
-  (GET/GET by id/POST 201/PUT 204/DELETE 204). `ToDto()` — проекция одиночной сущности в DTO;
-  в `GetAll` — проекция через `Select` с объектным инициализатором.
+   (GET/GET by id/POST 201/PUT 204/DELETE 204). `GetById` — инлайн-проекция сущности в DTO;
+   `GetAll` — проекция через `Select` с объектным инициализатором; `Create` возвращает
+   тот же `dto` после присвоения сгенерированного `Id`.
 - `Models/Telescope.cs` + `DTOs/TelescopeDto.cs` — модель и DTO (оба содержат `Description` и `Price`;
   цена есть и в seed — 10 значений в ₽).
 - `Pages/Index.cshtml(.cs)` — каталог; фильтрация на сервере (QueryString: `search`,
@@ -63,9 +64,10 @@ dotnet ef migrations add <Name> --output-dir Data/Migrations  # новая ми�
   (`price-asc/desc`, `aperture-asc/desc`; цена сортируется в памяти — в SQLite это TEXT,
   «Цена по запросу» всегда в конце). Активные фильтры выводятся чипами со ссылками,
   сохраняющими остальные параметры и `sort`. Поле `manufacturer` —
-  текстовый ввод с подсказками фирм на JS (`wwwroot/js/manufacturer-autocomplete.js`),
-  клик по подсказке только заполняет поле (фильтр — по кнопке «Применить»); совпадение
-  по подстроке без учёта регистра; панель фильтров — нативный `<details>` без JS.
+   текстовый ввод с подсказками фирм на JS (`wwwroot/js/manufacturer-autocomplete.js`),
+   клик по подсказке только заполняет поле (фильтр — по кнопке «Применить»); при
+   непустом поле справа есть крестик очистки (`data-manufacturer-clear`); совпадение
+   по подстроке без учёта регистра; панель фильтров — нативный `<details>` без JS.
 - `Pages/Telescope.cshtml(.cs)` — страница товара, маршрут `@page "{id:int}"` → `/Telescope/{id}`;
   `OnGetAsync(int id)` возвращает `NotFound()` при отсутствии; секция «Галерея»
   (`#gallery`) в `.product-media`: снимки из `wwwroot/AstroPhoto/{id}/*`
