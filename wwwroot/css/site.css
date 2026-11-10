@@ -253,15 +253,18 @@ a:hover {
     color: var(--text);
 }
 
-.filter-input-wide {
-    flex: 1 1 260px;
-    min-width: 0;
-}
-
 .filter-autocomplete {
     position: relative;
     flex: 0 1 220px;
     min-width: 0;
+}
+
+.filter-autocomplete-search {
+    flex: 1 1 260px;
+}
+
+.filter-autocomplete-search .filter-input {
+    width: 100%;
 }
 
 .filter-autocomplete .filter-manufacturer {
@@ -668,6 +671,14 @@ a:hover {
     padding: 24px 0 8px;
 }
 
+.product-left {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+    align-self: start;
+}
+
 .product-media {
     background: linear-gradient(180deg, #0b1426, #0f1c33);
     border: 1px solid var(--border);
@@ -675,8 +686,6 @@ a:hover {
     overflow: hidden;
     box-shadow: var(--shadow);
     align-self: start;
-    position: sticky;
-    top: 78px;
 }
 
 .product-media img {
@@ -688,7 +697,10 @@ a:hover {
 /* Gallery — заготовка под дополнительные фото */
 .product-gallery {
     padding: 14px 16px 16px;
-    border-top: 1px solid var(--border);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
 }
 
 .gallery-title {
@@ -1135,10 +1147,6 @@ a:hover {
     .product {
         grid-template-columns: 1fr;
         gap: 20px;
-    }
-
-    .product-media {
-        position: static;
     }
 
     .product-title {

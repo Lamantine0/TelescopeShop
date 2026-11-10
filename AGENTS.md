@@ -62,15 +62,19 @@ dotnet ef migrations add <Name> --output-dir Data/Migrations  # новая ми�
 - `Pages/Index.cshtml(.cs)` — каталог; фильтрация на сервере (QueryString: `search`,
   `manufacturer`, `apertureMin/Max`, `focalMin/Max`, `barlow`) и сортировка `sort`
   (`price-asc/desc`, `aperture-asc/desc`; цена сортируется в памяти — в SQLite это TEXT,
-  «Цена по запросу» всегда в конце). Активные фильтры выводятся чипами со ссылками,
-  сохраняющими остальные параметры и `sort`. Поле `manufacturer` —
-   текстовый ввод с подсказками фирм на JS (`wwwroot/js/manufacturer-autocomplete.js`),
-   клик по подсказке только заполняет поле (фильтр — по кнопке «Применить»); при
-   непустом поле справа есть крестик очистки (`data-manufacturer-clear`); совпадение
-   по подстроке без учёта регистра; панель фильтров — нативный `<details>` без JS.
+   «Цена по запросу» всегда в конце). Активные фильтры выводятся чипами со ссылками,
+   сохраняющими остальные параметры и `sort`. Поля `search` и `manufacturer` —
+   текстовый ввод с подсказками на JS (`wwwroot/js/manufacturer-autocomplete.js`):
+   `search` ищет по полной модели (`FullName`: фирма + апертура + фокусное) и
+   предлагает полные модели (`TelescopeNames`), `manufacturer` — только фирмы; клик
+   по подсказке только заполняет поле (фильтр — по кнопке «Применить»); в
+   `manufacturer` при непустом поле справа есть крестик очистки
+   (`data-manufacturer-clear`); совпадение по подстроке без учёта регистра; панель
+   фильтров — нативный `<details>` без JS.
 - `Pages/Telescope.cshtml(.cs)` — страница товара, маршрут `@page "{id:int}"` → `/Telescope/{id}`;
   `OnGetAsync(int id)` возвращает `NotFound()` при отсутствии; секция «Галерея»
-  (`#gallery`) в `.product-media`: снимки из `wwwroot/AstroPhoto/{id}/*`
+  (`#gallery`) — отдельный блок `.product-gallery` под `.product-media` (в `.product-left`),
+  не внутри карточки фото: снимки из `wwwroot/AstroPhoto/{id}/*`
   (свойство `Gallery` PageModel), нет папки — 2 слота-заглушки;
   клик по снимку открывает lightbox во весь экран
   (чистый CSS на `:target`, без JS); блок «Похожие телескопы»;

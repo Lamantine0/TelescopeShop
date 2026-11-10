@@ -38,6 +38,18 @@ public class IndexModelTests
     }
 
     [Fact]
+    public async Task SearchFilter_MatchesFullModelText()
+    {
+        using var db = new TestDatabase();
+
+        var model = await RunAsync(db, m => m.Search = "f/650");
+
+        Assert.NotEmpty(model.Telescopes);
+        Assert.All(model.Telescopes, t => Assert.Contains("f/650 мм", t.FullName));
+        Assert.Contains(model.TelescopeNames, name => name.Contains("Celestron 130 мм · f/650 мм"));
+    }
+
+    [Fact]
     public async Task ApertureRange_FiltersBothBounds()
     {
         using var db = new TestDatabase();

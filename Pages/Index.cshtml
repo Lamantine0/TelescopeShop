@@ -23,12 +23,22 @@
 
         <form method="get" class="filter-bar">
             <div class="filter-row">
-                <input type="text"
-                       name="search"
-                       value="@Model.Search"
-                       class="filter-input filter-input-wide"
-                       placeholder="Поиск по названию (производителю)…"
-                       autocomplete="off" />
+                <div class="filter-autocomplete filter-autocomplete-search">
+                    <input type="text"
+                           name="search"
+                           value="@Model.Search"
+                           class="filter-input"
+                           placeholder="Поиск по модели…"
+                           autocomplete="off"
+                           role="combobox"
+                           aria-autocomplete="list"
+                           aria-expanded="false"
+                           aria-controls="search-suggestions"
+                           data-manufacturer-autocomplete
+                           data-source="telescope-data"
+                           data-autocomplete-requires-input="true" />
+                    <ul class="filter-suggestions" id="search-suggestions" role="listbox" hidden></ul>
+                </div>
 
                 <div class="filter-autocomplete">
                     <input type="text"
@@ -201,5 +211,6 @@ else
 
 @section Scripts {
     <script type="application/json" id="manufacturer-data">@Json.Serialize(Model.Manufacturers)</script>
+    <script type="application/json" id="telescope-data">@Json.Serialize(Model.TelescopeNames)</script>
     <script src="~/js/manufacturer-autocomplete.js" asp-append-version="true"></script>
 }

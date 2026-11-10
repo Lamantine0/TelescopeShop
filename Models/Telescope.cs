@@ -9,6 +9,8 @@ public class Telescope
 
     public string Manufacturer { get; set; } = string.Empty;
 
+    public string FullName => $"{Manufacturer} {Aperture} мм · f/{FocalLength} мм";
+
     public int TripodHeight { get; set; }
 
     public int Aperture { get; set; }

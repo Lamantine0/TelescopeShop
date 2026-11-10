@@ -12,9 +12,25 @@
 </nav>
 
 <article class="product">
-    <div class="product-media">
-        <img asp-product-src="@t.Id"
-             alt="@t.Manufacturer, апертура @t.Aperture мм" />
+    <div class="product-left">
+        <div class="product-media">
+            <img asp-product-src="@t.Id"
+                 alt="@t.Manufacturer, апертура @t.Aperture мм" />
+
+            @for (var i = 0; i < Model.Gallery.Count; i++)
+            {
+                <div id="gallery-photo-@(i + 1)" class="lightbox">
+                    <a class="lightbox-backdrop" href="#gallery" aria-label="Закрыть просмотр"></a>
+                    <a class="lightbox-img" href="#gallery" aria-label="Закрыть просмотр">
+                        <img src="@Url.Content(Model.Gallery[i])"
+                             alt="@t.Manufacturer — галерея, фото @(i + 1)"
+                             asp-append-version="true" />
+                    </a>
+                    <a class="lightbox-close" href="#gallery" aria-label="Закрыть">&times;</a>
+                    <span class="lightbox-caption">Фото @(i + 1) из @Model.Gallery.Count</span>
+                </div>
+            }
+        </div>
 
         <section class="product-gallery" id="gallery">
             <h2 class="gallery-title">Галерея</h2>
@@ -43,20 +59,6 @@
                 </div>
             }
         </section>
-
-        @for (var i = 0; i < Model.Gallery.Count; i++)
-        {
-            <div id="gallery-photo-@(i + 1)" class="lightbox">
-                <a class="lightbox-backdrop" href="#gallery" aria-label="Закрыть просмотр"></a>
-                <a class="lightbox-img" href="#gallery" aria-label="Закрыть просмотр">
-                    <img src="@Url.Content(Model.Gallery[i])"
-                         alt="@t.Manufacturer — галерея, фото @(i + 1)"
-                         asp-append-version="true" />
-                </a>
-                <a class="lightbox-close" href="#gallery" aria-label="Закрыть">&times;</a>
-                <span class="lightbox-caption">Фото @(i + 1) из @Model.Gallery.Count</span>
-            </div>
-        }
     </div>
 
     <div class="product-info">

@@ -22,6 +22,8 @@ public class IndexModel : PageModel
 
     public IReadOnlyList<string> Manufacturers { get; private set; } = [];
 
+    public IReadOnlyList<string> TelescopeNames { get; private set; } = [];
+
     public IReadOnlyList<ActiveFilter> ActiveFilters { get; private set; } = [];
 
     public string? ClearFiltersUrl { get; private set; }
@@ -86,13 +88,18 @@ public class IndexModel : PageModel
             .OrderBy(m => m)
             .ToListAsync(cancellationToken);
 
-        var query = _context.Telescopes.AsNoTracking();
+        var telescopeNames = await _context.Telescopes
+            .AsNoTracking()
+            .Select(t => new { t.Manufacturer, t.Aperture, t.FocalLength })
+            .Distinct()
+            .ToListAsync(cancellationToken);
 
-        if (!string.IsNullOrWhiteSpace(Search))
-        {
-            var term = Search.Trim().ToLower();
-            query = query.Where(t => t.Manufacturer.ToLower().Contains(term));
-        }
+        TelescopeNames = telescopeNames
+            .Select(t => $"{t.Manufacturer} {t.Aperture} мм · f/{t.FocalLength} мм")
+            .OrderBy(name => name)
+            .ToList();
+
+        var query = _context.Telescopes.AsNoTracking();
 
         if (!string.IsNullOrWhiteSpace(Manufacturer))
         {
@@ -131,6 +138,14 @@ public class IndexModel : PageModel
         }
 
         var telescopes = await query.ToListAsync(cancellationToken);
+
+        if (!string.IsNullOrWhiteSpace(Search))
+        {
+            var term = Search.Trim().ToLowerInvariant();
+            telescopes = telescopes
+                .Where(t => t.FullName.ToLowerInvariant().Contains(term))
+                .ToList();
+        }
 
         Telescopes = Sort switch
         {
