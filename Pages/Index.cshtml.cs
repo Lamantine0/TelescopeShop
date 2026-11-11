@@ -143,7 +143,8 @@ public class IndexModel : PageModel
         {
             var term = Search.Trim().ToLowerInvariant();
             telescopes = telescopes
-                .Where(t => t.FullName.ToLowerInvariant().Contains(term))
+                .Where(t => t.FullName.ToLowerInvariant().StartsWith(term)
+                    || t.FullName.ToLowerInvariant().Contains(" " + term))
                 .ToList();
         }
 

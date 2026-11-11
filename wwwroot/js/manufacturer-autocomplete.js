@@ -87,7 +87,14 @@
       }
 
       matches = manufacturers
-        .filter((value) => !term || normalize(value).includes(term))
+        .filter((value) => {
+          const normalized = normalize(value);
+          if (!term) return true;
+
+          return requiresInput
+            ? normalized.startsWith(term) || normalized.includes(` ${term}`)
+            : normalized.includes(term);
+        })
         .slice(0, 8);
       activeIndex = matches.length > 0 ? 0 : -1;
       render();

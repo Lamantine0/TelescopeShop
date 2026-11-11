@@ -50,6 +50,17 @@ public class IndexModelTests
     }
 
     [Fact]
+    public async Task SearchFilter_StartsWithModelLetter()
+    {
+        using var db = new TestDatabase();
+
+        var model = await RunAsync(db, m => m.Search = "s");
+
+        Assert.NotEmpty(model.Telescopes);
+        Assert.All(model.Telescopes, t => Assert.StartsWith("Sky-Watcher", t.FullName));
+    }
+
+    [Fact]
     public async Task ApertureRange_FiltersBothBounds()
     {
         using var db = new TestDatabase();
