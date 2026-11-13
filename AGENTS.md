@@ -71,7 +71,8 @@ dotnet ef migrations add <Name> --output-dir Data/Migrations  # новая ми�
    по подсказке только заполняет поле (фильтр — по кнопке «Применить»); в
    `manufacturer` при непустом поле справа есть крестик очистки
    (`data-manufacturer-clear`); совпадение по подстроке без учёта регистра; панель
-   фильтров — нативный `<details>` без JS.
+   фильтров — нативный `<details>` без JS. В hero справа от фильтра — логотип
+   (`wwwroot/Логотип_TelescopeShop_с_телескопом_и_звёздами.png`).
 - `Pages/Telescope.cshtml(.cs)` — страница товара, маршрут `@page "{id:int}"` → `/Telescope/{id}`;
   `OnGetAsync(int id)` возвращает `NotFound()` при отсутствии; секция «Галерея»
   (`#gallery`) — отдельный блок `.product-gallery` под `.product-media` (в `.product-left`),
